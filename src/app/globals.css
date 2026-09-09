@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'maplibre-gl/dist/maplibre-gl.css';
+
+:root {
+  --paper-bg: #FAF8F5;
+  --paper-sheet: #F4F0EA;
+  --paper-card: #FFFFFF;
+  --crease-gray: #E2DCD5;
+  --crease-gray-dark: #DDD6CE;
+  --origami-yellow: #F4D06F;
+  --origami-terracotta: #E76F51;
+  --origami-teal: #2A9D8F;
+  --origami-slate: #264653;
+}
+
+body {
+  background-color: var(--paper-bg);
+  color: var(--origami-slate);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-image: 
+    radial-gradient(#E2DCD5 0.75px, transparent 0.75px),
+    linear-gradient(to right, rgba(226, 220, 213, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(226, 220, 213, 0.2) 1px, transparent 1px);
+  background-size: 24px 24px, 48px 48px, 48px 48px;
+  background-position: 0 0, 0 0, 0 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Origami Papercraft Cut-Corner Utility */
+.origami-card {
+  background-color: #FFFFFF;
+  border: 1.5px solid var(--crease-gray-dark);
+  box-shadow: 2px 3px 0px rgba(38, 70, 83, 0.12);
+  position: relative;
+}
+
+/* Dog-eared Folded Corner (Top-Right) */
+.origami-folded-corner {
+  position: relative;
+  background: 
+    linear-gradient(225deg, transparent 16px, #FFFFFF 16px);
+}
+.origami-folded-corner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(225deg, rgba(38,70,83,0.12) 50%, #DDD6CE 50%);
+  border-bottom-left-radius: 1px;
+  box-shadow: -1px 1px 2px rgba(38, 70, 83, 0.15);
+}
+
+/* Origami Sticky Memo Fold (Terracotta or Yellow) */
+.origami-memo-yellow {
+  background-color: #FEF9E7;
+  border: 1.5px solid #F4D06F;
+  box-shadow: 2px 3px 0px rgba(244, 208, 111, 0.35);
+}
+
+.origami-memo-teal {
+  background-color: #EDF7F6;
+  border: 1.5px solid #2A9D8F;
+  box-shadow: 2px 3px 0px rgba(42, 157, 143, 0.25);
+}
+
+.origami-memo-terracotta {
+  background-color: #FDEDEA;
+  border: 1.5px solid #E76F51;
+  box-shadow: 2px 3px 0px rgba(231, 111, 81, 0.25);
+}
+
+/* Tactile Origami Buttons */
+.origami-btn {
+  transition: transform 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.12s ease;
+  border: 1.5px solid var(--origami-slate);
+  box-shadow: 2px 2px 0px var(--origami-slate);
+  cursor: pointer;
+  user-select: none;
+}
+.origami-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px var(--origami-slate);
+}
+
+.origami-btn-primary {
+  background-color: var(--origami-yellow);
+  color: var(--origami-slate);
+  font-weight: 600;
+}
+.origami-btn-primary:hover {
+  background-color: #F8DA84;
+}
+
+.origami-btn-danger {
+  background-color: var(--origami-terracotta);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.origami-btn-danger:hover {
+  background-color: #EC8368;
+}
+
+.origami-btn-teal {
+  background-color: var(--origami-teal);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.origami-btn-teal:hover {
+  background-color: #33AF9F;
+}
+
+/* Origami Crease Dividers */
+.origami-crease {
+  border: 0;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--crease-gray-dark) 0,
+    var(--crease-gray-dark) 8px,
+    transparent 8px,
+    transparent 14px
+  );
+}
+
+/* Unfolding Animation Keyframe */
+@keyframes unfoldDrop {
+  0% {
+    transform: perspective(600px) rotateX(-20deg) translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: perspective(600px) rotateX(0deg) translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-unfold {
+  animation: unfoldDrop 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Origami Map Canvas Overrides */
+.maplibregl-canvas {
+  filter: contrast(1.03) saturate(0.95);
+}
+.maplibregl-ctrl-attrib {
+  display: none !important;
+}

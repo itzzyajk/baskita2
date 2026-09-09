@@ -1,0 +1,43 @@
+import { School } from '@/types';
+
+export const SCHOOLS: School[] = [
+  {
+    id: 'sch-sk-ttdi-jaya',
+    name: 'SK TTDI Jaya',
+    code: 'BBA8245',
+    type: 'primary',
+    lat: 3.0955,
+    lng: 101.5548,
+    address: 'Jalan Sastera U2/1, Seksyen U2, TTDI Jaya, 40150 Shah Alam, Selangor',
+    morningStart: '07:20 AM',
+    morningDismiss: '12:50 PM',
+    afternoonStart: '01:15 PM',
+    afternoonDismiss: '06:30 PM',
+  },
+  {
+    id: 'sch-smk-ttdi-jaya',
+    name: 'SMK TTDI Jaya',
+    code: 'BEA8654',
+    type: 'secondary',
+    lat: 3.0988,
+    lng: 101.5539,
+    address: 'Jalan Sastera U2/1, Seksyen U2, TTDI Jaya, 40150 Shah Alam, Selangor',
+    morningStart: '07:30 AM',
+    morningDismiss: '01:50 PM',
+    afternoonStart: '01:10 PM',
+    afternoonDismiss: '06:40 PM',
+  },
+  {
+    id: 'sch-sjkt-glenmarie',
+    name: 'SJK (T) Ladang Glenmarie',
+    code: 'BBD8452',
+    type: 'tamil',
+    lat: 3.0841,
+    lng: 101.5710,
+    address: 'Batu Tiga, Kawasan Perindustrian Glenmarie, 40150 Shah Alam, Selangor',
+    morningStart: '07:25 AM',
+    morningDismiss: '01:15 PM',
+    afternoonStart: '01:20 PM',
+    afternoonDismiss: '06:15 PM',
+  },
+];

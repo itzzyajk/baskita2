@@ -1,0 +1,16 @@
+{
+  "name": "BasKita TTDI Jaya",
+  "short_name": "BasKita",
+  "description": "Origami 2D School Bus Fleet Tracker for TTDI Jaya, Shah Alam",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF8F5",
+  "theme_color": "#FAF8F5",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
