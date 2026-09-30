@@ -68,45 +68,45 @@ export const StudentLounge: React.FC = () => {
         isJunior ? 'bg-paper-bg' : 'bg-slate-950 text-white'
       }`}
     >
-      {/* PERSISTENT STICKY IN-GAME ETA HUD */}
+      {/* PERSISTENT STICKY IN-GAME ETA HUD TICKET */}
       <div
-        className={`sticky top-14 z-30 p-3 rounded-lg border-2 shadow-paper-lg flex flex-wrap items-center justify-between gap-3 transition-all ${
+        className={`sticky top-14 z-30 p-3.5 sm:p-4 rounded-lg border-2 shadow-paper-lg flex flex-wrap items-center justify-between gap-3 transition-all ${
           isArrivingSoon
-            ? 'bg-origami-terracotta text-white border-white animate-pulse'
+            ? 'bg-origami-terracotta text-white border-2 border-white animate-pulse'
             : is3to4Min
-            ? 'bg-amber-100 border-origami-yellow text-origami-slate'
+            ? 'bg-amber-100 border-2 border-amber-600 text-slate-900'
             : isJunior
-            ? 'bg-white border-paper-creaseDark text-origami-slate'
-            : 'bg-slate-900 border-origami-teal text-white'
+            ? 'bg-white border-2 border-origami-slate text-slate-900'
+            : 'bg-slate-900 border-2 border-origami-teal text-white'
         }`}
       >
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
           <div
-            className={`w-9 h-9 rounded-sm flex items-center justify-center font-bold text-sm shadow-xs ${
+            className={`w-11 h-11 rounded-md flex items-center justify-center font-bold text-xl shadow-paper ${
               isArrivingSoon
                 ? 'bg-white text-origami-terracotta'
-                : 'bg-origami-yellow text-origami-slate border border-origami-slate'
+                : 'bg-origami-yellow text-slate-900 border-2 border-origami-slate'
             }`}
           >
             🚌
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-black text-xs sm:text-sm uppercase tracking-wider">
-                Status Bas 01: {activeBus.plateNumber}
+              <span className="font-black text-xs sm:text-base uppercase tracking-wider">
+                Status Bas 01 ({activeBus.plateNumber})
               </span>
               <span
-                className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                className={`text-xs font-black px-2 py-0.5 rounded uppercase border ${
                   isArrivingSoon
-                    ? 'bg-white text-origami-terracotta'
-                    : 'bg-origami-teal text-white'
+                    ? 'bg-white text-origami-terracotta border-white'
+                    : 'bg-origami-teal text-white border-slate-900'
                 }`}
               >
-                {activeBus.speedKmH} km/j
+                {activeBus.speedKmH} KM/J
               </span>
             </div>
-            <p className="text-[11px] opacity-90">
-              Menuju ke hentian: <strong>{currentStudent.pickupStopName.split('(')[0]}</strong>
+            <p className="text-xs sm:text-sm font-semibold opacity-95 mt-0.5">
+              Menuju ke hentian: <strong className="font-black">{currentStudent.pickupStopName.split('(')[0]}</strong>
             </p>
           </div>
         </div>
@@ -114,25 +114,25 @@ export const StudentLounge: React.FC = () => {
         {/* ETA Memo / Banner Progression Flow */}
         <div className="flex items-center gap-3">
           <div className="text-right">
-            <div className="text-[10px] uppercase font-bold opacity-80">Anggaran Tiba (ETA)</div>
-            <div className="text-base font-black font-mono">
+            <div className="text-xs uppercase font-black tracking-wide opacity-90">Anggaran Tiba (ETA)</div>
+            <div className="text-base sm:text-lg font-black font-mono">
               {isArrivingSoon ? 'SEDANG TIBA (≤ 2 Min)' : activeBus.nextStopETA}
             </div>
           </div>
 
           {/* Interruption Memo Sticker */}
           <div
-            className={`px-3 py-1.5 rounded text-xs font-bold shadow-xs border flex items-center gap-1.5 ${
+            className={`px-3.5 py-2 rounded-md text-xs sm:text-sm font-black shadow-paper border-2 flex items-center gap-2 ${
               isArrivingSoon
                 ? 'bg-white text-origami-terracotta border-white animate-bounce'
                 : is3to4Min
-                ? 'bg-amber-200 border-amber-400 text-amber-900'
-                : 'bg-emerald-100 border-emerald-300 text-emerald-800'
+                ? 'bg-amber-200 border-amber-600 text-amber-950'
+                : 'bg-emerald-100 border-emerald-600 text-emerald-950'
             }`}
           >
             {isArrivingSoon ? (
               <>
-                <AlertTriangle className="w-4 h-4 text-origami-terracotta" />
+                <AlertTriangle className="w-5 h-5 text-origami-terracotta" />
                 <span>KE KAKI LIMA SEKARANG!</span>
               </>
             ) : is3to4Min ? (
@@ -142,7 +142,7 @@ export const StudentLounge: React.FC = () => {
               </>
             ) : (
               <>
-                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                <Sparkles className="w-4 h-4 text-emerald-700" />
                 <span>Jadual lancar. Teruskan bermain.</span>
               </>
             )}
@@ -152,27 +152,27 @@ export const StudentLounge: React.FC = () => {
 
       {/* FULL-SCREEN SAFE ARRIVAL INTERRUPT BANNER (≤ 2 mins) */}
       {isArrivingSoon && (
-        <div className="bg-origami-terracotta text-white p-5 rounded-lg border-2 border-white shadow-paper-xl text-center space-y-3 animate-fadeIn">
-          <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto text-2xl shadow-paper animate-bounce">
+        <div className="bg-origami-terracotta text-white p-6 rounded-lg border-2 border-white shadow-paper-xl text-center space-y-3.5 animate-fadeIn">
+          <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto text-3xl shadow-paper animate-bounce">
             🚏
           </div>
-          <h2 className="font-black text-xl tracking-tight">
+          <h2 className="font-black text-2xl tracking-tight">
             Bas Kita Sudah Sampai! Sila Bersiap di Kaki Lima.
           </h2>
-          <p className="text-xs max-w-md mx-auto text-paper-bg leading-relaxed">
+          <p className="text-sm max-w-lg mx-auto text-white font-bold leading-relaxed">
             Permainan dijeda secara automatik untuk keselamatan anda. Pastikan beg zip ditutup dan pas digital sedia untuk diimbas oleh Pak Cik Roslan.
           </p>
           <div className="flex items-center justify-center gap-3 pt-2">
             <button
               onClick={() => sounds.playBusHorn()}
-              className="origami-btn bg-white text-origami-terracotta border-white px-4 py-2 rounded text-xs font-black flex items-center gap-1.5"
+              className="origami-btn bg-white text-origami-terracotta border-2 border-white px-5 py-2.5 rounded text-xs sm:text-sm font-black flex items-center gap-2 shadow-paper"
             >
-              <Volume2 className="w-4 h-4" />
+              <Volume2 className="w-5 h-5" />
               <span>Bunyikan Hon Bas</span>
             </button>
             <button
               onClick={() => actions.setActiveMiniGame(null)}
-              className="origami-btn bg-origami-slate text-white border-white px-4 py-2 rounded text-xs font-black"
+              className="origami-btn bg-slate-900 text-white border-2 border-white px-5 py-2.5 rounded text-xs sm:text-sm font-black shadow-paper"
             >
               Tutup Permainan
             </button>
@@ -183,32 +183,32 @@ export const StudentLounge: React.FC = () => {
       {/* MODE TOGGLE & COMPANION HEADER */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-paper-creaseDark pb-3">
         {/* Age Adaptive Selector Toggle */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-bold uppercase tracking-wider opacity-70">
+        <div className="flex items-center gap-3">
+          <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-800">
             Mod Zon Menunggu:
           </span>
-          <div className="flex bg-white/10 p-1 rounded border border-paper-creaseDark shadow-paper gap-1">
+          <div className="flex bg-white p-1 rounded-md border-2 border-origami-slate shadow-paper gap-1.5">
             <button
               onClick={() => handleSelectMode('junior')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-black transition-all ${
+              className={`flex items-center gap-2 px-3.5 py-2 rounded text-xs sm:text-sm font-black transition-all ${
                 isJunior
-                  ? 'bg-origami-yellow text-origami-slate border border-origami-slate shadow-xs'
-                  : 'text-gray-400 hover:text-white'
+                  ? 'bg-origami-yellow text-slate-900 border-2 border-origami-slate shadow-xs'
+                  : 'text-slate-700 hover:text-slate-900'
               }`}
             >
-              <KipTheKancil size={20} mood="happy" />
+              <KipTheKancil size={22} mood="happy" />
               <span>Junior (Kip 7-12)</span>
             </button>
 
             <button
               onClick={() => handleSelectMode('senior')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-black transition-all ${
+              className={`flex items-center gap-2 px-3.5 py-2 rounded text-xs sm:text-sm font-black transition-all ${
                 !isJunior
-                  ? 'bg-origami-teal text-white border border-white shadow-xs'
-                  : 'text-gray-600 hover:text-origami-slate'
+                  ? 'bg-origami-teal text-white border-2 border-origami-slate shadow-xs'
+                  : 'text-slate-700 hover:text-slate-900'
               }`}
             >
-              <RexTheHelang size={20} mood="alert" />
+              <RexTheHelang size={22} mood="alert" />
               <span>Senior (Rex 13-17)</span>
             </button>
           </div>
@@ -218,9 +218,9 @@ export const StudentLounge: React.FC = () => {
         {activeMiniGame && (
           <button
             onClick={() => actions.setActiveMiniGame(null)}
-            className="origami-btn px-3 py-1.5 bg-paper-sheet hover:bg-paper-crease text-origami-slate text-xs font-bold rounded flex items-center gap-1 shadow-xs"
+            className="origami-btn px-4 py-2 bg-paper-sheet hover:bg-paper-crease text-slate-900 text-xs sm:text-sm font-black rounded flex items-center gap-2 shadow-paper"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
+            <ArrowLeft className="w-4 h-4" />
             <span>Pilih Permainan Lain</span>
           </button>
         )}
@@ -275,18 +275,20 @@ export const StudentLounge: React.FC = () => {
         <div className="space-y-4 pt-2">
           <div className="flex items-center justify-between">
             <h3
-              className={`font-black text-sm uppercase tracking-wider flex items-center gap-2 ${
-                isJunior ? 'text-origami-slate' : 'text-teal-300'
+              className={`font-black text-sm sm:text-base uppercase tracking-wider flex items-center gap-2 ${
+                isJunior ? 'text-slate-900' : 'text-teal-300'
               }`}
             >
-              <Gamepad2 className="w-4 h-4" />
+              <Gamepad2 className="w-5 h-5 text-origami-yellow" />
               <span>
                 {isJunior
                   ? 'Arked Cilik Kip the Kancil (Ages 7–12)'
                   : 'Cabaran Kelajuan Rex the Helang (Ages 13–17)'}
               </span>
             </h3>
-            <span className="text-[11px] opacity-70">Pilih permainan 2D santai</span>
+            <span className="text-xs font-bold text-slate-700 bg-white px-2.5 py-1 rounded border border-slate-300">
+              Pilih permainan 2D santai
+            </span>
           </div>
 
           {/* Junior Games Lineup */}
@@ -295,50 +297,50 @@ export const StudentLounge: React.FC = () => {
               {/* Game 1: Paper Bus Runner */}
               <div
                 onClick={() => actions.setActiveMiniGame('paper_bus_runner')}
-                className="origami-card origami-folded-corner p-4 rounded-lg border-2 border-origami-slate bg-white shadow-paper hover:shadow-paper-lg hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between"
+                className="origami-card origami-folded-corner p-5 rounded-lg border-2 border-origami-slate bg-white shadow-paper hover:shadow-paper-lg hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="bg-origami-yellow text-origami-slate text-[10px] font-black px-2 py-0.5 rounded border border-origami-slate">
+                  <div className="flex items-center justify-between mb-2.5">
+                    <span className="bg-origami-yellow text-slate-900 text-xs font-black px-2.5 py-0.5 rounded border-2 border-origami-slate shadow-xs">
                       3-LANE RUNNER
                     </span>
-                    <span className="text-xs font-mono font-bold text-origami-terracotta">⭐ 180 Rekod</span>
+                    <span className="text-xs font-mono font-black text-origami-terracotta">⭐ 180 Rekod</span>
                   </div>
 
-                  <h4 className="font-black text-base text-origami-slate">Paper Bus Runner</h4>
-                  <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                  <h4 className="font-black text-lg text-slate-900">Paper Bus Runner</h4>
+                  <p className="text-xs sm:text-sm text-slate-800 font-medium mt-1.5 leading-relaxed">
                     Kawal van origami kuning di 3 lorong. Elak kon halangan dan awan hujan, kutip bintang lipatan emas!
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-paper-creaseDark flex items-center justify-between text-xs font-bold text-origami-terracotta">
+                <div className="mt-4 pt-3 border-t-2 border-paper-creaseDark flex items-center justify-between text-xs sm:text-sm font-black text-origami-terracotta">
                   <span>Main Sekarang</span>
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-5 h-5" />
                 </div>
               </div>
 
               {/* Game 2: Route Fold Puzzle */}
               <div
                 onClick={() => actions.setActiveMiniGame('route_fold_puzzle')}
-                className="origami-card origami-folded-corner p-4 rounded-lg border-2 border-origami-slate bg-white shadow-paper hover:shadow-paper-lg hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between"
+                className="origami-card origami-folded-corner p-5 rounded-lg border-2 border-origami-slate bg-white shadow-paper hover:shadow-paper-lg hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="bg-origami-teal text-white text-[10px] font-black px-2 py-0.5 rounded border border-origami-slate">
+                  <div className="flex items-center justify-between mb-2.5">
+                    <span className="bg-origami-teal text-white text-xs font-black px-2.5 py-0.5 rounded border-2 border-origami-slate shadow-xs">
                       FOLD MEMORY
                     </span>
-                    <span className="text-xs font-mono font-bold text-origami-slate">6 Haiwan Malaysia</span>
+                    <span className="text-xs font-mono font-black text-slate-900">6 Haiwan Malaysia</span>
                   </div>
 
-                  <h4 className="font-black text-base text-origami-slate">Route Fold Puzzle</h4>
-                  <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                  <h4 className="font-black text-lg text-slate-900">Route Fold Puzzle</h4>
+                  <p className="text-xs sm:text-sm text-slate-800 font-medium mt-1.5 leading-relaxed">
                     Uji ketajaman ingatan dengan membuka lipatan kertas haiwan terlindung: Kancil, Harimau, Kenyalang & Gajah.
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-paper-creaseDark flex items-center justify-between text-xs font-bold text-origami-teal">
+                <div className="mt-4 pt-3 border-t-2 border-paper-creaseDark flex items-center justify-between text-xs sm:text-sm font-black text-origami-teal">
                   <span>Buka Lipatan</span>
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-5 h-5" />
                 </div>
               </div>
             </div>
@@ -350,50 +352,50 @@ export const StudentLounge: React.FC = () => {
               {/* Game 3: Transit Drift */}
               <div
                 onClick={() => actions.setActiveMiniGame('transit_drift')}
-                className="p-4 rounded-lg border-2 border-origami-teal bg-slate-900 shadow-paper hover:shadow-paper-lg hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between"
+                className="p-5 rounded-lg border-2 border-origami-teal bg-slate-900 shadow-paper hover:shadow-paper-lg hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="bg-origami-terracotta text-white text-[10px] font-black px-2 py-0.5 rounded border border-white">
+                  <div className="flex items-center justify-between mb-2.5">
+                    <span className="bg-origami-terracotta text-white text-xs font-black px-2.5 py-0.5 rounded border border-white">
                       TIME-TRIAL DRIFT
                     </span>
-                    <span className="text-xs font-mono font-bold text-origami-yellow">3 Litar Pusingan</span>
+                    <span className="text-xs font-mono font-black text-origami-yellow">3 Litar Pusingan</span>
                   </div>
 
-                  <h4 className="font-black text-base text-white">Transit Drift: Neon Crease</h4>
-                  <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                  <h4 className="font-black text-lg text-white">Transit Drift: Neon Crease</h4>
+                  <p className="text-xs sm:text-sm text-slate-200 mt-1.5 leading-relaxed font-medium">
                     Litar Bulatan Seksyen 13 berdekatan Stadium Shah Alam. Asah teknik drift selekoh tajam dan cipta rekod masa terpantas.
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-bold text-teal-300">
+                <div className="mt-4 pt-3 border-t-2 border-slate-800 flex items-center justify-between text-xs sm:text-sm font-black text-teal-300">
                   <span>Mula Perlumbaan</span>
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-5 h-5" />
                 </div>
               </div>
 
               {/* Game 4: Shah Alam Transit Trivia */}
               <div
                 onClick={() => actions.setActiveMiniGame('transit_trivia')}
-                className="p-4 rounded-lg border-2 border-origami-teal bg-slate-900 shadow-paper hover:shadow-paper-lg hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between"
+                className="p-5 rounded-lg border-2 border-origami-teal bg-slate-900 shadow-paper hover:shadow-paper-lg hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="bg-origami-yellow text-origami-slate text-[10px] font-black px-2 py-0.5 rounded border border-origami-slate">
+                  <div className="flex items-center justify-between mb-2.5">
+                    <span className="bg-origami-yellow text-slate-900 text-xs font-black px-2.5 py-0.5 rounded border border-origami-slate">
                       15s QUICK QUIZ
                     </span>
-                    <span className="text-xs font-mono font-bold text-teal-300">5 Soalan Shah Alam</span>
+                    <span className="text-xs font-mono font-black text-teal-300">5 Soalan Shah Alam</span>
                   </div>
 
-                  <h4 className="font-black text-base text-white">Shah Alam Transit Trivia</h4>
-                  <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                  <h4 className="font-black text-lg text-white">Shah Alam Transit Trivia</h4>
+                  <p className="text-xs sm:text-sm text-slate-200 mt-1.5 leading-relaxed font-medium">
                     Ujian kepantasan minda 15 saat. Kuasai selok-belok laluan TTDI Jaya, lebuhraya utama, dan SOP keselamatan.
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-bold text-origami-yellow">
+                <div className="mt-4 pt-3 border-t-2 border-slate-800 flex items-center justify-between text-xs sm:text-sm font-black text-origami-yellow">
                   <span>Mulakan Ujian</span>
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-5 h-5" />
                 </div>
               </div>
             </div>
@@ -401,20 +403,20 @@ export const StudentLounge: React.FC = () => {
 
           {/* Junior Road Safety Cards */}
           {isJunior && (
-            <div className="bg-amber-50 border border-origami-yellow p-3.5 rounded-lg text-xs space-y-2">
-              <div className="font-black text-origami-slate flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-origami-teal" />
+            <div className="origami-memo-yellow p-4 sm:p-5 rounded-lg border-2 border-origami-slate shadow-paper text-xs sm:text-sm space-y-2.5">
+              <div className="font-black text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-origami-teal" />
                 <span>3 Peraturan Emas Beratur Bas dari Kip:</span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-gray-700">
-                <div className="bg-white p-2 rounded border border-amber-200">
-                  <strong>1. Jarak 2 Langkah:</strong> Berdiri sekurang-kurangnya 2 langkah ke belakang dari tepi jalan raya.
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-slate-900">
+                <div className="bg-white p-3 rounded-md border-2 border-amber-300 shadow-xs">
+                  <strong className="block text-slate-900 mb-0.5">1. Jarak 2 Langkah:</strong> Berdiri sekurang-kurangnya 2 langkah ke belakang dari tepi jalan raya.
                 </div>
-                <div className="bg-white p-2 rounded border border-amber-200">
-                  <strong>2. Tunggu Bas Berhenti:</strong> Jangan meluru masuk sebelum pintu bas dibuka sepenuhnya.
+                <div className="bg-white p-3 rounded-md border-2 border-amber-300 shadow-xs">
+                  <strong className="block text-slate-900 mb-0.5">2. Tunggu Bas Berhenti:</strong> Jangan meluru masuk sebelum pintu bas dibuka sepenuhnya.
                 </div>
-                <div className="bg-white p-2 rounded border border-amber-200">
-                  <strong>3. Tali Pinggang Keledar:</strong> Pasang tali pinggang keledar sebaik duduk di tempat anda.
+                <div className="bg-white p-3 rounded-md border-2 border-amber-300 shadow-xs">
+                  <strong className="block text-slate-900 mb-0.5">3. Tali Pinggang Keledar:</strong> Pasang tali pinggang keledar sebaik duduk di tempat anda.
                 </div>
               </div>
             </div>

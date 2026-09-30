@@ -39,7 +39,7 @@ export default function Home() {
   }, [actions]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-paper-bg">
+    <div className="min-h-screen flex flex-col bg-paper-bg text-slate-900">
       {/* Top Tactical Role Switcher */}
       <RoleSwitcher
         currentTab={currentTab}
@@ -58,34 +58,34 @@ export default function Home() {
         )}
       </main>
 
-      {/* Origami Papercraft Footer */}
-      <footer className="w-full bg-paper-sheet border-t-2 border-paper-creaseDark mt-auto py-5 px-4 text-xs text-gray-600">
+      {/* Origami Papercraft Footer - High Contrast */}
+      <footer className="w-full bg-paper-sheet border-t-2 border-origami-slate mt-auto py-5 px-4 text-xs sm:text-sm text-slate-800 font-bold">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-xs bg-origami-yellow border border-origami-slate flex items-center justify-center font-bold text-origami-slate text-[10px]">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-sm bg-origami-yellow border-2 border-origami-slate flex items-center justify-center font-black text-slate-900 text-xs shadow-xs">
               BK
             </div>
             <div>
-              <span className="font-bold text-origami-slate">BasKita TTDI Jaya</span>
-              <span className="text-gray-400 mx-1.5">•</span>
-              <span>Seksyen U2, Shah Alam, Selangor</span>
+              <span className="font-black text-slate-900">BasKita TTDI Jaya</span>
+              <span className="text-slate-400 mx-2">•</span>
+              <span className="text-slate-700">Seksyen U2, Shah Alam, Selangor</span>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 text-[11px]">
-            <span className="flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-origami-terracotta" />
-              Depot: Jalan Saujana Indah U2
+          <div className="flex flex-wrap items-center justify-center gap-3.5 text-xs text-slate-800">
+            <span className="flex items-center gap-1.5">
+              <MapPin className="w-4 h-4 text-origami-terracotta" />
+              <span>Depot: Jalan Saujana Indah U2</span>
             </span>
-            <span className="text-gray-300">|</span>
-            <span className="flex items-center gap-1">
-              <Phone className="w-3.5 h-3.5 text-origami-teal" />
-              Hotline: +60 3-7845 2210
+            <span className="text-slate-400">|</span>
+            <span className="flex items-center gap-1.5">
+              <Phone className="w-4 h-4 text-origami-teal" />
+              <span>Hotline: +60 3-7845 2210</span>
             </span>
-            <span className="text-gray-300">|</span>
-            <span className="flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              APAD & SPAD Berlesen
+            <span className="text-slate-400">|</span>
+            <span className="flex items-center gap-1.5 bg-emerald-100 text-emerald-950 px-2 py-0.5 rounded border border-emerald-600 font-black">
+              <ShieldCheck className="w-4 h-4 text-emerald-700" />
+              <span>APAD & SPAD Berlesen</span>
             </span>
           </div>
         </div>

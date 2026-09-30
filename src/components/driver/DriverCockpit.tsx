@@ -18,7 +18,8 @@ import {
   School,
   PhoneCall,
   PlusCircle,
-  ShieldAlert,
+  ShieldCheck,
+  AlertTriangle,
 } from 'lucide-react';
 import { sounds } from '@/components/common/SoundEffects';
 
@@ -40,7 +41,6 @@ export const DriverCockpit: React.FC = () => {
 
   const currentStopIndex = activeBus.currentStopIndex;
   const currentStop = activeRoute.stops[currentStopIndex] || activeRoute.stops[0];
-  const nextStop = activeRoute.stops[currentStopIndex + 1];
 
   // Headcounts
   const totalStudents = students.length;
@@ -91,50 +91,50 @@ export const DriverCockpit: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-2 sm:px-4 py-3 space-y-4 select-none">
-      {/* Cockpit HUD Header */}
-      <div className="bg-origami-slate text-white p-4 rounded-lg border-2 border-origami-slate shadow-paper-lg space-y-3">
+      {/* Cockpit HUD Header - In-Vehicle Tablet Dock Theme */}
+      <div className="bg-slate-900 text-white p-4 sm:p-5 rounded-lg border-2 border-origami-slate shadow-paper-xl space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-12 h-12 rounded-sm bg-origami-yellow border-2 border-white flex items-center justify-center shadow-xs">
-              <span className="font-black text-origami-slate text-base">01</span>
+          <div className="flex items-center gap-3">
+            <div className="w-14 h-14 rounded-md bg-origami-yellow border-2 border-white flex items-center justify-center shadow-paper transform -rotate-1">
+              <span className="font-black text-slate-900 text-2xl font-mono">01</span>
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="font-black text-base sm:text-lg text-white tracking-tight">
+                <h2 className="font-black text-lg sm:text-xl text-white tracking-tight">
                   Kokpit Pemandu: {activeBus.name}
                 </h2>
-                <span className="bg-emerald-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+                <span className="bg-emerald-500 text-slate-950 text-xs font-black px-2 py-0.5 rounded border border-white">
                   APAD AKTIF
                 </span>
               </div>
-              <p className="text-xs text-paper-crease font-mono">
-                {activeBus.plateNumber} • Pemandu: {activeBus.driverName}
+              <p className="text-xs sm:text-sm text-paper-crease font-mono font-bold mt-0.5">
+                Plat: {activeBus.plateNumber} • Pemandu: {activeBus.driverName}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             {/* Audio Voice Test Button */}
             <button
               onClick={handleTestAudio}
-              className={`origami-btn px-3 py-2 rounded text-xs font-bold flex items-center gap-1.5 shadow-xs ${
+              className={`origami-btn px-3.5 py-2.5 rounded text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-xs ${
                 speechTested
                   ? 'bg-emerald-600 text-white border-white'
-                  : 'bg-white/10 hover:bg-white/20 text-white border-white/40'
+                  : 'bg-slate-800 hover:bg-slate-700 text-white border-slate-400'
               }`}
               title="Uji Pembesar Suara"
             >
-              <Volume2 className="w-4 h-4" />
-              <span className="hidden sm:inline">Uji Suara</span>
+              <Volume2 className="w-4 h-4 text-origami-yellow" />
+              <span>Uji Suara</span>
             </button>
 
             {/* Master One-Tap Route Execution Button (≥ 64px touch target) */}
             <button
               onClick={handleToggleRoute}
-              className={`origami-btn min-h-[56px] sm:min-h-[64px] px-5 py-3 rounded font-black text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 shadow-paper active:scale-95 transition-transform ${
+              className={`origami-btn min-h-[58px] sm:min-h-[64px] px-5 sm:px-6 py-3 rounded font-black text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 shadow-paper active:scale-95 transition-transform ${
                 routeActive
-                  ? 'bg-origami-terracotta text-white border-white'
-                  : 'bg-origami-yellow text-origami-slate border-origami-slate'
+                  ? 'bg-origami-terracotta text-white border-2 border-white'
+                  : 'bg-origami-yellow text-slate-900 border-2 border-slate-900'
               }`}
             >
               {routeActive ? (
@@ -144,51 +144,51 @@ export const DriverCockpit: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <Play className="w-5 h-5 fill-origami-slate" />
-                  <span>Mula Laluan (Start GPS)</span>
+                  <Play className="w-5 h-5 fill-slate-900" />
+                  <span>Mula Laluan (GPS)</span>
                 </>
               )}
             </button>
           </div>
         </div>
 
-        {/* Headcount Dashboard Gauges */}
-        <div className="grid grid-cols-4 gap-2 pt-2 border-t border-slate-700/80">
-          <div className="bg-white/10 p-2 rounded text-center">
-            <div className="text-[10px] uppercase font-bold text-gray-300">Jumlah Murid</div>
-            <div className="text-xl font-black text-white">{totalStudents}</div>
+        {/* Headcount Dashboard Gauges - High Contrast */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-3 border-t-2 border-slate-700">
+          <div className="bg-slate-800/90 border-2 border-slate-600 p-2.5 rounded text-center shadow-xs">
+            <div className="text-xs uppercase font-black text-slate-300">Jumlah Murid</div>
+            <div className="text-2xl font-black text-white font-mono">{totalStudents}</div>
           </div>
-          <div className="bg-emerald-500/20 border border-emerald-500/40 p-2 rounded text-center">
-            <div className="text-[10px] uppercase font-bold text-emerald-300">Naik Bas</div>
-            <div className="text-xl font-black text-emerald-300">{boardedCount}</div>
+          <div className="bg-emerald-950/80 border-2 border-emerald-500 p-2.5 rounded text-center shadow-xs">
+            <div className="text-xs uppercase font-black text-emerald-300">Naik Bas</div>
+            <div className="text-2xl font-black text-emerald-400 font-mono">{boardedCount}</div>
           </div>
-          <div className="bg-amber-500/20 border border-amber-500/40 p-2 rounded text-center">
-            <div className="text-[10px] uppercase font-bold text-amber-300">Menunggu</div>
-            <div className="text-xl font-black text-amber-300">{waitingCount}</div>
+          <div className="bg-amber-950/80 border-2 border-amber-500 p-2.5 rounded text-center shadow-xs">
+            <div className="text-xs uppercase font-black text-amber-300">Menunggu</div>
+            <div className="text-2xl font-black text-amber-400 font-mono">{waitingCount}</div>
           </div>
-          <div className="bg-red-500/20 border border-red-500/40 p-2 rounded text-center">
-            <div className="text-[10px] uppercase font-bold text-red-300">Cuti / MC</div>
-            <div className="text-xl font-black text-red-300">{absentCount}</div>
+          <div className="bg-red-950/80 border-2 border-red-500 p-2.5 rounded text-center shadow-xs">
+            <div className="text-xs uppercase font-black text-red-300">Cuti / MC</div>
+            <div className="text-2xl font-black text-red-400 font-mono">{absentCount}</div>
           </div>
         </div>
       </div>
 
       {/* Next Stop High-Contrast HUD Card with Large Touch Targets (≥ 64px) */}
       {currentStop && (
-        <div className="origami-card origami-folded-corner p-4 sm:p-5 rounded-lg border-2 border-origami-slate bg-white shadow-paper-lg">
-          <div className="flex items-center justify-between border-b border-paper-creaseDark pb-2.5 mb-3">
-            <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-origami-terracotta">
-              <Navigation className="w-4 h-4 text-origami-terracotta animate-pulse" />
+        <div className="origami-card origami-folded-corner p-4 sm:p-6 rounded-lg border-2 border-origami-slate bg-white shadow-paper-lg">
+          <div className="flex items-center justify-between border-b-2 border-slate-300 pb-3 mb-3.5">
+            <div className="flex items-center gap-2 text-xs sm:text-sm font-black uppercase tracking-wider text-origami-terracotta">
+              <Navigation className="w-5 h-5 text-origami-terracotta animate-pulse" />
               <span>Hentian Semasa / Seterusnya (#{currentStop.sequence})</span>
             </div>
 
             <div className="flex items-center gap-2">
               {currentStop.waitBufferSeconds ? (
-                <span className="text-xs font-mono font-bold bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded">
+                <span className="text-xs sm:text-sm font-mono font-black bg-amber-100 text-amber-950 border-2 border-amber-500 px-2.5 py-0.5 rounded shadow-xs">
                   +{(currentStop.waitBufferSeconds / 60).toFixed(0)} min Buffer
                 </span>
               ) : null}
-              <span className="text-xs font-mono font-bold bg-origami-yellow px-2.5 py-1 rounded text-origami-slate border border-origami-slate">
+              <span className="text-xs sm:text-sm font-mono font-black bg-origami-yellow px-3 py-1 rounded text-slate-900 border-2 border-origami-slate shadow-xs">
                 {currentStop.scheduledTime}
               </span>
             </div>
@@ -196,44 +196,44 @@ export const DriverCockpit: React.FC = () => {
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h3 className="font-black text-lg sm:text-xl text-origami-slate leading-snug">
+              <h3 className="font-black text-xl sm:text-2xl text-slate-900 leading-snug">
                 {currentStop.name}
               </h3>
-              <p className="text-xs text-gray-600 flex items-center gap-1.5 mt-1">
-                <MapPin className="w-4 h-4 text-gray-500 shrink-0" />
+              <p className="text-xs sm:text-sm text-slate-700 font-bold flex items-center gap-2 mt-1">
+                <MapPin className="w-4 h-4 text-slate-600 shrink-0" />
                 <span>{currentStop.landmark}</span>
               </p>
             </div>
 
             {/* Stop Action Single-Tap Buttons (Operable in portrait dock orientation with min-h-[64px]) */}
-            <div className="grid grid-cols-3 gap-2 shrink-0">
+            <div className="grid grid-cols-3 gap-2.5 shrink-0">
               {/* Skip Stop */}
               <button
                 onClick={() => handleStopSkip(currentStop)}
-                className="origami-btn min-h-[64px] min-w-[72px] px-3 py-2 bg-paper-sheet hover:bg-gray-200 text-gray-700 font-black text-xs rounded border border-gray-400 flex flex-col items-center justify-center gap-1"
+                className="origami-btn min-h-[64px] min-w-[76px] px-3 py-2 bg-paper-sheet hover:bg-slate-200 text-slate-800 font-black text-xs sm:text-sm rounded border-2 border-slate-500 flex flex-col items-center justify-center gap-1 shadow-paper"
                 title="Langkau Hentian Ini"
               >
-                <XCircle className="w-5 h-5 text-gray-500" />
+                <XCircle className="w-5 h-5 text-slate-700" />
                 <span>Langkau</span>
               </button>
 
               {/* +1 Min Wait Buffer */}
               <button
                 onClick={() => handleAddStopBuffer(currentStop)}
-                className="origami-btn min-h-[64px] min-w-[72px] px-3 py-2 bg-amber-100 hover:bg-amber-200 text-amber-900 font-black text-xs rounded border border-amber-300 flex flex-col items-center justify-center gap-1"
+                className="origami-btn min-h-[64px] min-w-[76px] px-3 py-2 bg-amber-100 hover:bg-amber-200 text-amber-950 font-black text-xs sm:text-sm rounded border-2 border-amber-600 flex flex-col items-center justify-center gap-1 shadow-paper"
                 title="Tambah 1 Minit Waktu Menunggu"
               >
-                <PlusCircle className="w-5 h-5 text-amber-700" />
+                <PlusCircle className="w-5 h-5 text-amber-800" />
                 <span>+1 Minit</span>
               </button>
 
               {/* Selesai / Boarded */}
               <button
                 onClick={() => handleStopComplete(currentStop)}
-                className="origami-btn origami-btn-primary min-h-[64px] min-w-[90px] px-4 py-2 text-xs font-black rounded flex flex-col items-center justify-center gap-1 shadow-paper"
+                className="origami-btn origami-btn-primary min-h-[64px] min-w-[96px] px-4 py-2 text-xs sm:text-sm font-black rounded flex flex-col items-center justify-center gap-1 shadow-paper"
                 title="Selesai Hentian Ini"
               >
-                <CheckCircle2 className="w-5 h-5 text-origami-slate" />
+                <CheckCircle2 className="w-6 h-6 text-slate-900" />
                 <span>Selesai</span>
               </button>
             </div>
@@ -242,27 +242,27 @@ export const DriverCockpit: React.FC = () => {
       )}
 
       {/* Sequential Manifest Checklist */}
-      <div className="bg-white rounded-lg border-2 border-paper-creaseDark p-4 shadow-paper space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-paper-creaseDark pb-3">
+      <div className="bg-white rounded-lg border-2 border-origami-slate p-4 sm:p-5 shadow-paper-lg space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-paper-creaseDark pb-3">
           <div>
-            <h3 className="font-black text-sm text-origami-slate">
+            <h3 className="font-black text-base text-slate-900">
               Manifest Murid Mengikut Urutan Laluan Saujana
             </h3>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs sm:text-sm text-slate-700 font-bold mt-0.5">
               Kemas kini kehadiran murid dengan butang sentuh pantas minimum 64px
             </p>
           </div>
 
           {/* Filter Chips */}
-          <div className="flex items-center gap-1 bg-paper-sheet p-1 rounded border border-paper-crease text-xs">
+          <div className="flex items-center gap-1.5 bg-paper-sheet p-1 rounded-md border-2 border-origami-slate text-xs font-black">
             {(['all', 'waiting', 'boarded', 'absent'] as const).map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
-                className={`px-3 py-1.5 rounded-xs font-bold capitalize transition-all ${
+                className={`px-3 py-1.5 rounded-xs font-black capitalize transition-all ${
                   activeFilter === filter
-                    ? 'bg-origami-slate text-white shadow-xs'
-                    : 'text-gray-600 hover:text-origami-slate'
+                    ? 'bg-origami-slate text-white shadow-paper'
+                    : 'text-slate-800 hover:text-origami-slate'
                 }`}
               >
                 {filter === 'all'
@@ -287,60 +287,60 @@ export const DriverCockpit: React.FC = () => {
             return (
               <div
                 key={student.id}
-                className={`p-3 sm:p-4 rounded-md border-2 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                className={`p-3.5 sm:p-4 rounded-lg border-2 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                   isAbsent
-                    ? 'border-red-300 bg-red-50/40 opacity-80'
+                    ? 'border-red-400 bg-red-50/70 shadow-xs'
                     : isBoarded
-                    ? 'border-emerald-300 bg-emerald-50/40'
-                    : 'border-paper-creaseDark bg-white shadow-xs'
+                    ? 'border-emerald-400 bg-emerald-50/70 shadow-xs'
+                    : 'border-origami-slate bg-white shadow-paper'
                 }`}
               >
                 {/* Left: Avatar & Info */}
-                <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded bg-paper-sheet border border-origami-slate flex items-center justify-center p-0.5 shrink-0 shadow-xs">
-                    <OrigamiAvatarIcon avatar={student.avatar} size={36} />
+                <div className="flex items-start gap-3.5">
+                  <div className="w-14 h-14 rounded bg-paper-sheet border-2 border-origami-slate flex items-center justify-center p-1 shrink-0 shadow-xs">
+                    <OrigamiAvatarIcon avatar={student.avatar} size={42} />
                   </div>
 
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h4 className="font-bold text-sm text-origami-slate truncate">
+                      <h4 className="font-black text-base text-slate-900 truncate">
                         {student.name}
                       </h4>
-                      <span className="text-[10px] font-mono text-gray-500 font-bold">
+                      <span className="text-xs font-mono text-slate-700 font-black">
                         ({student.initials})
                       </span>
 
                       {/* Special Authorization / Delay Badges */}
                       {student.bufferSeconds ? (
-                        <span className="bg-amber-200 text-amber-900 text-[10px] font-black px-1.5 py-0.5 rounded border border-amber-400">
-                          ⏱️ Buffer: +{student.bufferSeconds}s
+                        <span className="bg-amber-300 text-amber-950 text-xs font-black px-2 py-0.5 rounded border border-amber-600 shadow-xs">
+                          ⏱️ Buffer: +{student.bufferSeconds}s (Lewat)
                         </span>
                       ) : null}
 
                       {student.afternoonFlag === 'grandma' && (
-                        <span className="bg-teal-100 text-teal-900 text-[10px] font-black px-1.5 py-0.5 rounded border border-teal-300">
+                        <span className="bg-teal-100 text-teal-950 text-xs font-black px-2 py-0.5 rounded border border-teal-500">
                           👵 Nenek Ambil Petang
                         </span>
                       )}
 
                       {student.afternoonFlag === 'self_pickup' && (
-                        <span className="bg-purple-100 text-purple-900 text-[10px] font-black px-1.5 py-0.5 rounded border border-purple-300">
+                        <span className="bg-purple-100 text-purple-950 text-xs font-black px-2 py-0.5 rounded border border-purple-500">
                           🚶 Pulang Sendiri Petang
                         </span>
                       )}
                     </div>
 
-                    <div className="text-xs text-gray-600 mt-0.5">
+                    <div className="text-xs sm:text-sm text-slate-800 font-bold mt-1">
                       {student.grade} • {student.schoolName}
                     </div>
 
-                    <div className="text-[11px] text-gray-500 flex items-center gap-1 mt-0.5">
-                      <MapPin className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                    <div className="text-xs text-slate-700 font-medium flex items-center gap-1.5 mt-1">
+                      <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                       <span className="truncate">{student.pickupStopName}</span>
                     </div>
 
                     {student.statusNotes && (
-                      <div className="text-[11px] font-bold text-origami-terracotta mt-1">
+                      <div className="text-xs font-black text-origami-terracotta mt-1 bg-amber-50 p-1.5 rounded border border-amber-300">
                         Nota: {student.statusNotes}
                       </div>
                     )}
@@ -348,13 +348,13 @@ export const DriverCockpit: React.FC = () => {
                 </div>
 
                 {/* Right: Driver Action Toggles with Large Touch Targets (≥ 64px) */}
-                <div className="grid grid-cols-3 sm:flex items-center gap-2 shrink-0 self-end sm:self-center">
+                <div className="grid grid-cols-3 sm:flex items-center gap-2.5 shrink-0 self-end sm:self-center">
                   <button
                     onClick={() => handleStudentAction(student.id, 'boarded')}
-                    className={`origami-btn min-h-[56px] sm:min-h-[64px] min-w-[70px] sm:min-w-[80px] px-3 py-2 rounded text-xs font-black flex flex-col items-center justify-center gap-1 transition-all ${
+                    className={`origami-btn min-h-[58px] sm:min-h-[64px] min-w-[76px] sm:min-w-[88px] px-3.5 py-2 rounded text-xs sm:text-sm font-black flex flex-col items-center justify-center gap-1 transition-all shadow-paper ${
                       isBoarded
-                        ? 'bg-emerald-600 text-white border-emerald-700 shadow-paper'
-                        : 'bg-paper-sheet text-gray-700 hover:bg-emerald-100'
+                        ? 'bg-emerald-600 text-white border-2 border-emerald-800'
+                        : 'bg-paper-sheet text-slate-900 border-2 border-slate-500 hover:bg-emerald-100'
                     }`}
                     title="Tanda telah menaiki bas"
                   >
@@ -364,10 +364,10 @@ export const DriverCockpit: React.FC = () => {
 
                   <button
                     onClick={() => handleStudentAction(student.id, 'absent')}
-                    className={`origami-btn min-h-[56px] sm:min-h-[64px] min-w-[70px] sm:min-w-[80px] px-3 py-2 rounded text-xs font-black flex flex-col items-center justify-center gap-1 transition-all ${
+                    className={`origami-btn min-h-[58px] sm:min-h-[64px] min-w-[76px] sm:min-w-[88px] px-3.5 py-2 rounded text-xs sm:text-sm font-black flex flex-col items-center justify-center gap-1 transition-all shadow-paper ${
                       isAbsent
-                        ? 'bg-red-600 text-white border-red-700 shadow-paper'
-                        : 'bg-paper-sheet text-gray-700 hover:bg-red-100'
+                        ? 'bg-red-600 text-white border-2 border-red-800'
+                        : 'bg-paper-sheet text-slate-900 border-2 border-slate-500 hover:bg-red-100'
                     }`}
                     title="Tanda tidak hadir / cuti"
                   >
@@ -377,11 +377,11 @@ export const DriverCockpit: React.FC = () => {
 
                   <a
                     href={`tel:${student.guardianPhone}`}
-                    className="origami-btn min-h-[56px] sm:min-h-[64px] px-3 py-2 rounded bg-paper-sheet hover:bg-paper-crease text-gray-700 border border-gray-400 flex flex-col items-center justify-center gap-1"
+                    className="origami-btn min-h-[58px] sm:min-h-[64px] px-3 py-2 rounded bg-paper-sheet hover:bg-paper-crease text-slate-900 border-2 border-slate-500 flex flex-col items-center justify-center gap-1 shadow-paper"
                     title="Hubungi Waris"
                   >
                     <PhoneCall className="w-5 h-5 text-origami-teal" />
-                    <span className="text-[10px]">Waris</span>
+                    <span className="text-[11px] font-black">Waris</span>
                   </a>
                 </div>
               </div>

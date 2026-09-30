@@ -19,6 +19,7 @@ import {
   Search,
   ExternalLink,
   DollarSign,
+  Check,
 } from 'lucide-react';
 
 const FPX_BANKS = [
@@ -111,18 +112,18 @@ export const BillingHub: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-2 sm:px-4 py-4 space-y-5 select-none">
       {/* Top Banner & Monthly Cron Trigger */}
-      <div className="bg-white rounded-lg border-2 border-origami-slate p-4 shadow-paper-lg flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white rounded-lg border-2 border-origami-slate p-4 sm:p-5 shadow-paper-lg flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="bg-origami-teal text-white text-[10px] font-black uppercase px-2 py-0.5 rounded shadow-xs">
+            <span className="bg-origami-teal text-white text-xs font-black uppercase px-2.5 py-0.5 rounded shadow-xs border border-origami-slate">
               Enjin Langganan Bulanan
             </span>
-            <span className="text-xs text-gray-500 font-mono">Kitaran: 1hb Setiap Bulan</span>
+            <span className="text-xs text-slate-700 font-mono font-bold">Kitaran: 1hb Setiap Bulan</span>
           </div>
-          <h2 className="font-black text-lg sm:text-xl text-origami-slate mt-1">
+          <h2 className="font-black text-xl sm:text-2xl text-slate-900 mt-1.5">
             Hab Langganan, Yuran & Pembayaran FPX
           </h2>
-          <p className="text-xs text-gray-600">
+          <p className="text-xs sm:text-sm text-slate-700 font-semibold mt-0.5">
             Penjanaan invois automatik, rekonsiliasi FPX (Billplz / ToyyibPay) & resit lipatan kertas origami
           </p>
         </div>
@@ -131,117 +132,160 @@ export const BillingHub: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => actions.runMonthlyInvoicingCron()}
-            className="origami-btn origami-btn-primary px-4 py-2.5 rounded text-xs font-black flex items-center gap-2 shadow-paper"
+            className="origami-btn origami-btn-primary px-4 sm:px-5 py-2.5 rounded text-xs sm:text-sm font-black flex items-center gap-2 shadow-paper"
             title="Simulasi auto-cron 1hb setiap bulan"
           >
-            <Calendar className="w-4 h-4" />
+            <Calendar className="w-4 h-4 text-slate-900" />
             <span>Jana Invois 1hb (Run Cron)</span>
           </button>
         </div>
       </div>
 
-      {/* Subscription Tier Pricing Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-        <div className="origami-card origami-folded-corner p-4 rounded-lg border-2 border-paper-creaseDark bg-white shadow-paper">
-          <div className="flex items-center justify-between text-xs font-bold text-gray-500 mb-1">
-            <span>PAKEJ SEHALA</span>
-            <span className="bg-paper-sheet px-1.5 py-0.5 rounded text-[10px]">Single-Leg</span>
+      {/* Subscription Tier Pricing Cards - Folded Paper Passes */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Tier 1: Single-Leg */}
+        <div className="origami-card origami-folded-corner p-5 rounded-lg border-2 border-origami-slate bg-white shadow-paper hover:shadow-paper-lg transition-all flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between text-xs font-black text-slate-700 mb-2">
+              <span className="bg-paper-sheet border border-slate-300 px-2 py-0.5 rounded">PAKEJ SEHALA</span>
+              <span className="font-mono text-slate-600">Single-Leg</span>
+            </div>
+            <div className="flex items-baseline gap-1.5 my-2">
+              <span className="text-3xl font-black text-slate-900 font-mono">RM 90</span>
+              <span className="text-xs text-slate-700 font-bold">/ bulan</span>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-800 font-medium mt-1 leading-relaxed">
+              Perjalanan waktu pagi SAHAJA (pergi sekolah) atau waktu petang SAHAJA (hantar pulang).
+            </p>
+            <div className="mt-3 space-y-1.5 text-xs text-slate-800 font-semibold border-t-2 border-paper-creaseDark pt-3">
+              <div className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>1 sesi perjalanan tetap setiap hari</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Pas digital dan imbasan kehadiran</span>
+              </div>
+            </div>
           </div>
-          <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-black text-origami-slate">RM 90</span>
-            <span className="text-xs text-gray-500">/ bulan</span>
-          </div>
-          <p className="text-xs text-gray-600 mt-2">
-            Penghantaran waktu pagi SAHAJA atau pengambilan pulang SAHAJA.
-          </p>
         </div>
 
-        <div className="origami-card origami-folded-corner p-4 rounded-lg border-2 border-origami-yellow bg-amber-50/40 shadow-paper">
-          <div className="flex items-center justify-between text-xs font-bold text-origami-terracotta mb-1">
-            <span>PAKEJ DUA HALA</span>
-            <span className="bg-origami-yellow text-origami-slate font-black px-1.5 py-0.5 rounded text-[10px]">
-              POPULAR
-            </span>
+        {/* Tier 2: Return-Trip (Popular) */}
+        <div className="origami-card origami-folded-corner p-5 rounded-lg border-2 border-origami-slate bg-amber-50/70 shadow-paper hover:shadow-paper-lg transition-all ring-2 ring-origami-yellow flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between text-xs font-black text-origami-terracotta mb-2">
+              <span className="bg-origami-yellow text-slate-900 border border-origami-slate px-2 py-0.5 rounded shadow-xs">
+                PAKEJ DUA HALA
+              </span>
+              <span className="bg-origami-terracotta text-white font-black px-2 py-0.5 rounded text-[11px] shadow-xs">
+                PILIHAN UTAMA
+              </span>
+            </div>
+            <div className="flex items-baseline gap-1.5 my-2">
+              <span className="text-3xl font-black text-slate-900 font-mono">RM 160</span>
+              <span className="text-xs text-slate-700 font-bold">/ bulan</span>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-900 font-bold mt-1 leading-relaxed">
+              Perjalanan lengkap pergi sekolah (pagi) dan hantar pulang terus ke pintu rumah (petang).
+            </p>
+            <div className="mt-3 space-y-1.5 text-xs text-slate-900 font-bold border-t-2 border-amber-300 pt-3">
+              <div className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>2 sesi perjalanan lengkap setiap hari</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Akses amaran kapal terbang & SMS pemandu</span>
+              </div>
+            </div>
           </div>
-          <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-black text-origami-slate">RM 160</span>
-            <span className="text-xs text-gray-500">/ bulan</span>
-          </div>
-          <p className="text-xs text-gray-600 mt-2">
-            Perjalanan lengkap pergi sekolah (pagi) dan hantar pulang ke rumah (petang).
-          </p>
         </div>
 
-        <div className="origami-card origami-folded-corner p-4 rounded-lg border-2 border-origami-teal bg-teal-50/40 shadow-paper">
-          <div className="flex items-center justify-between text-xs font-bold text-origami-teal mb-1">
-            <span>PAKEJ ADIK-BERADIK</span>
-            <span className="bg-origami-teal text-white font-black px-1.5 py-0.5 rounded text-[10px]">
-              JIMAT RM 40
-            </span>
+        {/* Tier 3: Sibling Bundle */}
+        <div className="origami-card origami-folded-corner p-5 rounded-lg border-2 border-origami-slate bg-teal-50/70 shadow-paper hover:shadow-paper-lg transition-all flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between text-xs font-black text-origami-teal mb-2">
+              <span className="bg-origami-teal text-white border border-origami-slate px-2 py-0.5 rounded shadow-xs">
+                PAKEJ ADIK-BERADIK
+              </span>
+              <span className="bg-emerald-600 text-white font-black px-2 py-0.5 rounded text-[11px] shadow-xs">
+                JIMAT RM 40
+              </span>
+            </div>
+            <div className="flex items-baseline gap-1.5 my-2">
+              <span className="text-3xl font-black text-slate-900 font-mono">RM 280</span>
+              <span className="text-xs text-slate-700 font-bold">/ 2 orang</span>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-800 font-medium mt-1 leading-relaxed">
+              Kadar diskaun khas keluarga untuk 2 orang anak bagi laluan Saujana & Jelutong.
+            </p>
+            <div className="mt-3 space-y-1.5 text-xs text-slate-800 font-semibold border-t-2 border-teal-300 pt-3">
+              <div className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>RM 140 seorang anak (penjimatan keluarga)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Invois tunggal memudahkan penyelarasan FPX</span>
+              </div>
+            </div>
           </div>
-          <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-black text-origami-slate">RM 280</span>
-            <span className="text-xs text-gray-500">/ 2 orang</span>
-          </div>
-          <p className="text-xs text-gray-600 mt-2">
-            Kadar diskaun khas keluarga untuk 2 orang anak bagi laluan Saujana & Jelutong.
-          </p>
         </div>
       </div>
 
       {/* Revenue Status Summary Strip */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white p-3.5 rounded-lg border-2 border-paper-creaseDark shadow-paper">
-        <div>
-          <div className="text-[10px] uppercase font-bold text-gray-500">Jumlah Invois</div>
-          <div className="text-xl font-black text-origami-slate">{invoices.length}</div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white p-4 rounded-lg border-2 border-origami-slate shadow-paper">
+        <div className="p-2 bg-paper-sheet rounded border border-paper-creaseDark">
+          <div className="text-xs uppercase font-black text-slate-700">Jumlah Invois</div>
+          <div className="text-2xl font-black text-slate-900 font-mono">{invoices.length}</div>
         </div>
-        <div>
-          <div className="text-[10px] uppercase font-bold text-emerald-600">Kutipan Selesai</div>
-          <div className="text-xl font-black text-emerald-700">RM {totalRevenue}.00</div>
+        <div className="p-2 bg-emerald-50 rounded border-2 border-emerald-400">
+          <div className="text-xs uppercase font-black text-emerald-900">Kutipan Selesai</div>
+          <div className="text-2xl font-black text-emerald-800 font-mono">RM {totalRevenue}.00</div>
         </div>
-        <div>
-          <div className="text-[10px] uppercase font-bold text-amber-600">Menunggu Bayaran</div>
-          <div className="text-xl font-black text-amber-700">RM {pendingRevenue}.00</div>
+        <div className="p-2 bg-amber-50 rounded border-2 border-amber-400">
+          <div className="text-xs uppercase font-black text-amber-900">Menunggu Bayaran</div>
+          <div className="text-2xl font-black text-amber-800 font-mono">RM {pendingRevenue}.00</div>
         </div>
-        <div>
-          <div className="text-[10px] uppercase font-bold text-origami-teal">Transaksi FPX</div>
-          <div className="text-xl font-black text-origami-teal">{transactions.length} rekod</div>
+        <div className="p-2 bg-teal-50 rounded border-2 border-teal-400">
+          <div className="text-xs uppercase font-black text-teal-900">Transaksi FPX</div>
+          <div className="text-2xl font-black text-teal-800 font-mono">{transactions.length} rekod</div>
         </div>
       </div>
 
       {/* Invoices Table & Search Controls */}
-      <div className="bg-white rounded-lg border-2 border-paper-creaseDark p-4 shadow-paper-lg space-y-3.5">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-paper-creaseDark pb-3">
+      <div className="bg-white rounded-lg border-2 border-origami-slate p-4 sm:p-5 shadow-paper-lg space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-paper-creaseDark pb-3.5">
           <div>
-            <h3 className="font-black text-base text-origami-slate">Lejar Invois & Status Pembayaran</h3>
-            <p className="text-xs text-gray-500">
+            <h3 className="font-black text-lg text-slate-900">Lejar Invois & Status Pembayaran</h3>
+            <p className="text-xs sm:text-sm text-slate-700 font-medium">
               Urus pembayaran FPX terus atau kirim peringatan WhatsApp kepada waris
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
             {/* Search */}
             <div className="relative">
-              <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-2.5" />
+              <Search className="w-4 h-4 text-slate-600 absolute left-3 top-2.5" />
               <input
                 type="text"
                 placeholder="Cari murid, invois, telefon..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="text-xs pl-8 pr-3 py-1.5 rounded border border-paper-creaseDark bg-paper-bg focus:outline-hidden w-48 sm:w-56"
+                className="text-xs sm:text-sm pl-9 pr-3 py-1.5 rounded border-2 border-origami-slate bg-paper-bg font-medium text-slate-900 focus:outline-hidden w-48 sm:w-60"
               />
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex items-center gap-1 bg-paper-sheet p-1 rounded border border-paper-crease text-xs">
+            <div className="flex items-center gap-1.5 bg-paper-sheet p-1 rounded-md border-2 border-origami-slate text-xs font-black">
               {(['all', 'unpaid', 'paid'] as const).map((st) => (
                 <button
                   key={st}
                   onClick={() => setFilterStatus(st)}
-                  className={`px-3 py-1 rounded-xs font-bold capitalize transition-all ${
+                  className={`px-3 py-1 rounded font-black capitalize transition-all ${
                     filterStatus === st
-                      ? 'bg-origami-slate text-white shadow-xs'
-                      : 'text-gray-600 hover:text-origami-slate'
+                      ? 'bg-origami-slate text-white shadow-paper'
+                      : 'text-slate-800 hover:text-origami-slate'
                   }`}
                 >
                   {st === 'all' ? 'Semua' : st === 'unpaid' ? 'Belum Bayar' : 'Telah Bayar'}
@@ -252,34 +296,34 @@ export const BillingHub: React.FC = () => {
         </div>
 
         {/* Invoices List */}
-        <div className="overflow-x-auto border border-paper-creaseDark rounded">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-paper-sheet border-b border-paper-creaseDark text-gray-600 uppercase font-bold text-[10px]">
+        <div className="overflow-x-auto border-2 border-origami-slate rounded-md">
+          <table className="w-full text-left text-xs sm:text-sm">
+            <thead className="bg-paper-sheet border-b-2 border-origami-slate text-slate-900 uppercase font-black text-xs">
               <tr>
-                <th className="p-2.5">No. Invois</th>
-                <th className="p-2.5">Murid</th>
-                <th className="p-2.5">Pakej</th>
-                <th className="p-2.5">Jumlah</th>
-                <th className="p-2.5">Tarikh Akhir</th>
-                <th className="p-2.5">Status</th>
-                <th className="p-2.5 text-right">Tindakan</th>
+                <th className="p-3">No. Invois</th>
+                <th className="p-3">Murid</th>
+                <th className="p-3">Pakej</th>
+                <th className="p-3">Jumlah</th>
+                <th className="p-3">Tarikh Akhir</th>
+                <th className="p-3">Status</th>
+                <th className="p-3 text-right">Tindakan</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-paper-crease">
+            <tbody className="divide-y-2 divide-paper-creaseDark">
               {filteredInvoices.map((inv) => {
                 const isPaid = inv.status === 'paid';
 
                 return (
-                  <tr key={inv.id} className="hover:bg-paper-sheet/40 transition-colors">
-                    <td className="p-2.5 font-mono font-bold text-origami-slate">
+                  <tr key={inv.id} className="hover:bg-paper-sheet transition-colors">
+                    <td className="p-3 font-mono font-black text-slate-900">
                       {inv.invoiceNo}
                     </td>
-                    <td className="p-2.5">
-                      <div className="font-bold text-origami-slate">{inv.studentName}</div>
-                      <div className="text-[10px] text-gray-500">{inv.guardianPhone}</div>
+                    <td className="p-3">
+                      <div className="font-black text-slate-900">{inv.studentName}</div>
+                      <div className="text-xs text-slate-600 font-mono font-bold">{inv.guardianPhone}</div>
                     </td>
-                    <td className="p-2.5">
-                      <span className="capitalize font-medium text-gray-700">
+                    <td className="p-3">
+                      <span className="capitalize font-bold text-slate-800 bg-paper-sheet px-2 py-0.5 rounded border border-slate-300">
                         {inv.tier === 'single_leg'
                           ? 'Sehala'
                           : inv.tier === 'return_trip'
@@ -287,31 +331,31 @@ export const BillingHub: React.FC = () => {
                           : 'Adik-Beradik'}
                       </span>
                     </td>
-                    <td className="p-2.5 font-bold text-origami-terracotta text-sm">
+                    <td className="p-3 font-black text-origami-terracotta text-sm sm:text-base font-mono">
                       RM {inv.amount}.00
                     </td>
-                    <td className="p-2.5 font-mono text-gray-600">
+                    <td className="p-3 font-mono text-slate-700 font-bold">
                       {inv.dueDate}
                     </td>
-                    <td className="p-2.5">
+                    <td className="p-3">
                       <span
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border ${
+                        className={`text-xs font-black px-2.5 py-1 rounded-full uppercase border-2 shadow-xs ${
                           isPaid
-                            ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                            : 'bg-amber-100 text-amber-800 border-amber-300'
+                            ? 'bg-emerald-100 text-emerald-950 border-emerald-600'
+                            : 'bg-amber-100 text-amber-950 border-amber-600'
                         }`}
                       >
-                        {isPaid ? 'Lunas' : 'Belum Bayar'}
+                        {isPaid ? '✓ Lunas' : '⏳ Belum Bayar'}
                       </span>
                     </td>
-                    <td className="p-2.5 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
+                    <td className="p-3 text-right">
+                      <div className="flex items-center justify-end gap-2">
                         {!isPaid ? (
                           <>
                             {/* Pay FPX */}
                             <button
                               onClick={() => handleOpenFpx(inv)}
-                              className="origami-btn px-2.5 py-1.5 bg-origami-yellow text-origami-slate font-black text-xs rounded shadow-xs"
+                              className="origami-btn px-3 py-1.5 bg-origami-yellow text-slate-900 font-black text-xs sm:text-sm rounded shadow-paper"
                               title="Bayar melalui FPX"
                             >
                               Bayar FPX
@@ -320,10 +364,10 @@ export const BillingHub: React.FC = () => {
                             {/* WhatsApp Reminder */}
                             <button
                               onClick={() => setWhatsappModalInvoice(inv)}
-                              className="origami-btn px-2 py-1.5 bg-emerald-600 text-white font-bold text-xs rounded shadow-xs"
+                              className="origami-btn px-2.5 py-1.5 bg-emerald-600 text-white font-bold text-xs rounded shadow-paper"
                               title="Kirim Peringatan WhatsApp"
                             >
-                              <Send className="w-3.5 h-3.5" />
+                              <Send className="w-4 h-4" />
                             </button>
                           </>
                         ) : (
@@ -331,10 +375,10 @@ export const BillingHub: React.FC = () => {
                             {/* View Origami Receipt */}
                             <button
                               onClick={() => setReceiptModalInvoice(inv)}
-                              className="origami-btn px-2.5 py-1.5 bg-paper-sheet hover:bg-paper-crease text-origami-slate font-bold text-xs rounded border border-gray-400 flex items-center gap-1 shadow-xs"
+                              className="origami-btn px-3 py-1.5 bg-paper-sheet hover:bg-paper-crease text-slate-900 font-black text-xs sm:text-sm rounded border-2 border-origami-slate flex items-center gap-1.5 shadow-paper"
                               title="Lihat Resit Rasmi Origami"
                             >
-                              <FileText className="w-3.5 h-3.5 text-origami-teal" />
+                              <FileText className="w-4 h-4 text-origami-teal" />
                               <span>Resit</span>
                             </button>
                           </>
@@ -351,63 +395,63 @@ export const BillingHub: React.FC = () => {
 
       {/* MODAL 1: FPX PAYMENT GATEWAY (Billplz / ToyyibPay Simulation) */}
       {fpxModalInvoice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-origami-slate/60 backdrop-blur-xs animate-fadeIn">
-          <div className="relative w-full max-w-md bg-white rounded-lg border-2 border-origami-slate shadow-paper-xl overflow-hidden animate-unfold">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn">
+          <div className="relative w-full max-w-lg bg-white rounded-lg border-2 border-origami-slate shadow-paper-xl overflow-hidden animate-unfold">
             {/* Header */}
-            <div className="bg-paper-sheet border-b border-paper-creaseDark px-4 py-3 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 bg-origami-yellow border border-origami-slate rounded flex items-center justify-center font-bold text-xs">
+            <div className="bg-paper-sheet border-b-2 border-origami-slate px-5 py-3.5 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-origami-yellow border-2 border-origami-slate rounded flex items-center justify-center font-black text-xs shadow-xs">
                   FPX
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm text-origami-slate">Gerbang Pembayaran FPX</h3>
-                  <p className="text-[10px] text-gray-500">Billplz / ToyyibPay Secure Checkout</p>
+                  <h3 className="font-black text-base text-slate-900">Gerbang Pembayaran FPX</h3>
+                  <p className="text-xs text-slate-700 font-medium">Billplz / ToyyibPay Secure Checkout</p>
                 </div>
               </div>
               <button
                 onClick={() => setFpxModalInvoice(null)}
-                className="text-gray-400 hover:text-origami-slate p-1 rounded"
+                className="text-slate-500 hover:text-slate-900 p-1.5 rounded"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Content */}
-            <div className="p-4 space-y-3.5">
+            <div className="p-5 space-y-4">
               {fpxSuccess ? (
-                <div className="py-6 text-center space-y-2 animate-fadeIn">
-                  <div className="w-14 h-14 bg-emerald-100 border-2 border-emerald-500 text-emerald-700 rounded-full flex items-center justify-center mx-auto text-2xl shadow-paper">
+                <div className="py-6 text-center space-y-3 animate-fadeIn">
+                  <div className="w-16 h-16 bg-emerald-100 border-2 border-emerald-600 text-emerald-800 rounded-full flex items-center justify-center mx-auto text-3xl shadow-paper animate-bounce">
                     ✓
                   </div>
-                  <h4 className="font-black text-base text-origami-slate">Pembayaran Berjaya Disahkan!</h4>
-                  <p className="text-xs text-gray-600">
+                  <h4 className="font-black text-xl text-slate-900">Pembayaran Berjaya Disahkan!</h4>
+                  <p className="text-sm text-slate-800 font-medium max-w-xs mx-auto">
                     Status invois <strong>{fpxModalInvoice.invoiceNo}</strong> telah bertukar kepada LUNAS. Resit rasmi telah dijana.
                   </p>
                 </div>
               ) : (
                 <>
                   {/* Order summary */}
-                  <div className="bg-paper-sheet/60 p-3 rounded border border-paper-crease space-y-1 text-xs">
+                  <div className="bg-paper-sheet p-3.5 rounded border-2 border-paper-creaseDark space-y-1.5 text-xs sm:text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-500">Murid:</span>
-                      <strong className="text-origami-slate">{fpxModalInvoice.studentName}</strong>
+                      <span className="text-slate-700 font-medium">Murid:</span>
+                      <strong className="text-slate-900">{fpxModalInvoice.studentName}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-500">No. Invois:</span>
-                      <span className="font-mono">{fpxModalInvoice.invoiceNo}</span>
+                      <span className="text-slate-700 font-medium">No. Invois:</span>
+                      <span className="font-mono font-bold text-slate-900">{fpxModalInvoice.invoiceNo}</span>
                     </div>
-                    <div className="flex justify-between border-t border-paper-crease pt-1 text-sm">
-                      <span className="font-bold text-origami-slate">Jumlah Perlu Dibayar:</span>
-                      <span className="font-black text-origami-terracotta">RM {fpxModalInvoice.amount}.00</span>
+                    <div className="flex justify-between border-t-2 border-paper-creaseDark pt-2 text-sm sm:text-base">
+                      <span className="font-black text-slate-900">Jumlah Perlu Dibayar:</span>
+                      <span className="font-black text-origami-terracotta font-mono">RM {fpxModalInvoice.amount}.00</span>
                     </div>
                   </div>
 
                   {/* Bank Selector */}
                   <div>
-                    <label className="block text-xs font-bold text-gray-700 mb-1.5">
+                    <label className="block text-xs sm:text-sm font-black text-slate-800 mb-2">
                       Pilih Bank Perbankan Internet (FPX B2C):
                     </label>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-2.5">
                       {FPX_BANKS.map((b) => {
                         const isSelected = selectedBank === b.id;
                         return (
@@ -415,13 +459,13 @@ export const BillingHub: React.FC = () => {
                             key={b.id}
                             type="button"
                             onClick={() => setSelectedBank(b.id)}
-                            className={`p-2 rounded border text-left text-xs font-bold flex items-center gap-2 transition-all ${
+                            className={`p-2.5 rounded border-2 text-left text-xs sm:text-sm font-black flex items-center gap-2.5 transition-all ${
                               isSelected
-                                ? 'border-origami-slate bg-origami-yellow/30 ring-2 ring-origami-slate shadow-xs'
-                                : 'border-paper-creaseDark bg-white hover:bg-paper-sheet'
+                                ? 'border-origami-slate bg-origami-yellow/30 ring-2 ring-origami-slate shadow-paper'
+                                : 'border-slate-300 bg-white hover:bg-paper-sheet'
                             }`}
                           >
-                            <span>{b.logo}</span>
+                            <span className="text-base">{b.logo}</span>
                             <span className="truncate">{b.name}</span>
                           </button>
                         );
@@ -430,11 +474,11 @@ export const BillingHub: React.FC = () => {
                   </div>
 
                   {/* Submit button */}
-                  <div className="pt-2 border-t border-paper-creaseDark flex justify-end gap-2">
+                  <div className="pt-3 border-t-2 border-paper-creaseDark flex justify-end gap-3">
                     <button
                       type="button"
                       onClick={() => setFpxModalInvoice(null)}
-                      className="px-3 py-2 text-xs font-bold text-gray-600"
+                      className="px-4 py-2 text-xs sm:text-sm font-black text-slate-700 hover:text-slate-900"
                     >
                       Batal
                     </button>
@@ -442,7 +486,7 @@ export const BillingHub: React.FC = () => {
                       type="button"
                       onClick={handleExecuteFpx}
                       disabled={fpxProcessing}
-                      className="origami-btn origami-btn-primary px-5 py-2.5 rounded text-xs font-black flex items-center gap-1.5 shadow-paper"
+                      className="origami-btn origami-btn-primary px-6 py-2.5 rounded text-xs sm:text-sm font-black flex items-center gap-2 shadow-paper"
                     >
                       <CreditCard className="w-4 h-4" />
                       <span>{fpxProcessing ? 'Mengesahkan FPX...' : `Bayar RM ${fpxModalInvoice.amount}.00`}</span>
@@ -457,35 +501,35 @@ export const BillingHub: React.FC = () => {
 
       {/* MODAL 2: WHATSAPP REMINDER PREVIEW MODAL */}
       {whatsappModalInvoice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-origami-slate/60 backdrop-blur-xs animate-fadeIn">
-          <div className="relative w-full max-w-md bg-white rounded-lg border-2 border-origami-slate shadow-paper-xl overflow-hidden animate-unfold">
-            <div className="bg-emerald-700 text-white px-4 py-3 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-xl">💬</span>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn">
+          <div className="relative w-full max-w-lg bg-white rounded-lg border-2 border-origami-slate shadow-paper-xl overflow-hidden animate-unfold">
+            <div className="bg-emerald-700 text-white px-5 py-3.5 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="text-2xl">💬</span>
                 <div>
-                  <h3 className="font-bold text-sm">Peringatan WhatsApp Business API</h3>
-                  <p className="text-[10px] text-emerald-100">Kirim terus ke {whatsappModalInvoice.guardianPhone}</p>
+                  <h3 className="font-black text-base">Peringatan WhatsApp Business API</h3>
+                  <p className="text-xs text-emerald-100 font-mono">Kirim terus ke {whatsappModalInvoice.guardianPhone}</p>
                 </div>
               </div>
               <button
                 onClick={() => setWhatsappModalInvoice(null)}
-                className="text-white hover:opacity-80 p-1 rounded"
+                className="text-white hover:opacity-80 p-1.5 rounded"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="p-4 space-y-3">
-              <label className="block text-xs font-bold text-gray-700">Pratonton Mesej WhatsApp:</label>
-              <div className="bg-emerald-50/50 p-3 rounded border border-emerald-200 text-xs text-gray-800 font-sans whitespace-pre-line leading-relaxed">
+            <div className="p-5 space-y-3.5">
+              <label className="block text-xs sm:text-sm font-black text-slate-800">Pratonton Mesej WhatsApp:</label>
+              <div className="bg-emerald-50/70 p-4 rounded border-2 border-emerald-300 text-xs sm:text-sm text-slate-900 font-sans whitespace-pre-line leading-relaxed shadow-xs">
                 {generateWhatsAppMessage(whatsappModalInvoice)}
               </div>
 
-              <div className="pt-2 flex items-center justify-end gap-2 border-t border-paper-creaseDark">
+              <div className="pt-3 flex items-center justify-end gap-3 border-t-2 border-paper-creaseDark">
                 <button
                   type="button"
                   onClick={() => setWhatsappModalInvoice(null)}
-                  className="px-3 py-2 text-xs font-bold text-gray-600"
+                  className="px-4 py-2 text-xs sm:text-sm font-black text-slate-700 hover:text-slate-900"
                 >
                   Tutup
                 </button>
@@ -495,9 +539,9 @@ export const BillingHub: React.FC = () => {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="origami-btn bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-800 px-4 py-2 rounded text-xs font-black flex items-center gap-1.5 shadow-paper"
+                  className="origami-btn bg-emerald-600 hover:bg-emerald-700 text-white border-2 border-emerald-900 px-5 py-2.5 rounded text-xs sm:text-sm font-black flex items-center gap-2 shadow-paper"
                 >
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink className="w-4 h-4" />
                   <span>Buka di WhatsApp Web</span>
                 </a>
               </div>
@@ -508,22 +552,22 @@ export const BillingHub: React.FC = () => {
 
       {/* MODAL 3: ORIGAMI PDF TACTILE RECEIPT PREVIEW & PRINT */}
       {receiptModalInvoice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-origami-slate/70 backdrop-blur-xs animate-fadeIn overflow-y-auto">
-          <div className="relative w-full max-w-lg bg-white rounded-lg border-2 border-origami-slate shadow-paper-xl overflow-hidden animate-unfold my-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs animate-fadeIn overflow-y-auto">
+          <div className="relative w-full max-w-xl bg-white rounded-lg border-2 border-origami-slate shadow-paper-xl overflow-hidden animate-unfold my-6">
             {/* Modal Controls Bar */}
-            <div className="bg-paper-sheet border-b border-paper-creaseDark px-4 py-2.5 flex items-center justify-between">
-              <span className="text-xs font-bold text-origami-slate">Pratonton Resit Rasmi BasKita</span>
-              <div className="flex items-center gap-2">
+            <div className="bg-paper-sheet border-b-2 border-origami-slate px-5 py-3 flex items-center justify-between">
+              <span className="text-xs sm:text-sm font-black text-slate-900">Pratonton Resit Rasmi BasKita TTDI Jaya</span>
+              <div className="flex items-center gap-2.5">
                 <button
                   onClick={handlePrintReceipt}
-                  className="origami-btn px-3 py-1 bg-white hover:bg-paper-sheet text-origami-slate text-xs font-bold rounded flex items-center gap-1 shadow-xs"
+                  className="origami-btn px-4 py-1.5 bg-white hover:bg-paper-sheet text-slate-900 text-xs sm:text-sm font-black rounded border-2 border-origami-slate flex items-center gap-2 shadow-paper"
                 >
-                  <Printer className="w-3.5 h-3.5 text-origami-teal" />
+                  <Printer className="w-4 h-4 text-origami-teal" />
                   <span>Cetak / PDF</span>
                 </button>
                 <button
                   onClick={() => setReceiptModalInvoice(null)}
-                  className="text-gray-400 hover:text-origami-slate p-1 rounded"
+                  className="text-slate-500 hover:text-slate-900 p-1.5 rounded"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -531,82 +575,75 @@ export const BillingHub: React.FC = () => {
             </div>
 
             {/* Printable Origami Papercraft Receipt Body */}
-            <div className="p-6 bg-paper-bg space-y-4 text-origami-slate font-sans relative">
-              {/* Origami 45° Crease Watermark */}
-              <div className="absolute top-0 right-0 w-32 h-32 pointer-events-none opacity-5">
-                <svg viewBox="0 0 100 100" width="128" height="128">
-                  <polygon points="0,0 100,0 100,100" fill="#264653" />
-                </svg>
-              </div>
-
+            <div className="p-6 sm:p-8 bg-paper-bg space-y-5 text-slate-900 font-sans relative">
               {/* Receipt Header */}
-              <div className="flex items-start justify-between border-b-2 border-dashed border-paper-creaseDark pb-4">
+              <div className="flex items-start justify-between border-b-2 border-dashed border-slate-400 pb-4">
                 <div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-6 h-6 bg-origami-yellow border border-origami-slate flex items-center justify-center font-bold text-xs">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 bg-origami-yellow border-2 border-origami-slate flex items-center justify-center font-black text-xs shadow-xs">
                       BK
                     </div>
-                    <h2 className="font-black text-base text-origami-slate">BASKITA TTDI JAYA</h2>
+                    <h2 className="font-black text-lg text-slate-900">BASKITA TTDI JAYA</h2>
                   </div>
-                  <p className="text-[11px] text-gray-500 mt-0.5">
+                  <p className="text-xs text-slate-700 font-bold mt-1">
                     No. 12, Jalan Saujana Indah U2, TTDI Jaya, 40150 Shah Alam
                   </p>
-                  <p className="text-[10px] text-gray-400 font-mono">
+                  <p className="text-xs text-slate-600 font-mono font-bold">
                     Lesen Pengendali APAD / SPAD: B-7741-2026
                   </p>
                 </div>
 
                 <div className="text-right">
-                  <span className="bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-black px-2 py-0.5 rounded uppercase">
+                  <span className="bg-emerald-100 text-emerald-950 border-2 border-emerald-600 text-xs font-black px-2.5 py-1 rounded uppercase shadow-xs">
                     RESIT RASMI LUNAS
                   </span>
-                  <div className="text-xs font-mono font-bold mt-1">
+                  <div className="text-xs font-mono font-black mt-2 text-slate-900">
                     {receiptModalInvoice.fpxTransactionId || 'FPX-MY-2026-PAID'}
                   </div>
-                  <div className="text-[10px] text-gray-500 font-mono">{receiptModalInvoice.paidAt}</div>
+                  <div className="text-xs text-slate-600 font-mono font-bold">{receiptModalInvoice.paidAt}</div>
                 </div>
               </div>
 
               {/* Payer Details */}
-              <div className="grid grid-cols-2 gap-2 text-xs bg-white p-3 rounded border border-paper-crease">
+              <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm bg-white p-3.5 rounded border-2 border-paper-creaseDark">
                 <div>
-                  <span className="text-gray-400 text-[10px] uppercase font-bold block">Dibayar Oleh:</span>
-                  <strong className="text-origami-slate">{receiptModalInvoice.guardianName}</strong>
-                  <div className="text-[10px] text-gray-500 font-mono">{receiptModalInvoice.guardianPhone}</div>
+                  <span className="text-slate-600 text-xs uppercase font-black block">Dibayar Oleh:</span>
+                  <strong className="text-slate-900 font-black">{receiptModalInvoice.guardianName}</strong>
+                  <div className="text-xs text-slate-700 font-mono font-bold mt-0.5">{receiptModalInvoice.guardianPhone}</div>
                 </div>
 
                 <div>
-                  <span className="text-gray-400 text-[10px] uppercase font-bold block">Untuk Murid:</span>
-                  <strong className="text-origami-slate">{receiptModalInvoice.studentName}</strong>
-                  <div className="text-[10px] text-gray-500">Laluan Saujana (Bas 01)</div>
+                  <span className="text-slate-600 text-xs uppercase font-black block">Untuk Murid:</span>
+                  <strong className="text-slate-900 font-black">{receiptModalInvoice.studentName}</strong>
+                  <div className="text-xs text-slate-700 font-bold mt-0.5">Laluan Saujana (Bas 01)</div>
                 </div>
               </div>
 
               {/* Itemized Table */}
-              <div className="border border-paper-creaseDark rounded overflow-hidden bg-white text-xs">
+              <div className="border-2 border-origami-slate rounded overflow-hidden bg-white text-xs sm:text-sm">
                 <table className="w-full text-left">
-                  <thead className="bg-paper-sheet border-b border-paper-creaseDark text-gray-600 font-bold text-[10px] uppercase">
+                  <thead className="bg-paper-sheet border-b-2 border-origami-slate text-slate-900 font-black text-xs uppercase">
                     <tr>
-                      <th className="p-2">Keterangan</th>
-                      <th className="p-2 text-center">Bulan</th>
-                      <th className="p-2 text-right">Jumlah</th>
+                      <th className="p-3">Keterangan</th>
+                      <th className="p-3 text-center">Bulan</th>
+                      <th className="p-3 text-right">Jumlah</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="p-2">
+                      <td className="p-3 font-medium">
                         Langganan Bas Sekolah ({receiptModalInvoice.tier.replace('_', ' ').toUpperCase()})
                       </td>
-                      <td className="p-2 text-center font-mono">{receiptModalInvoice.period}</td>
-                      <td className="p-2 text-right font-bold text-origami-slate">
+                      <td className="p-3 text-center font-mono font-bold">{receiptModalInvoice.period}</td>
+                      <td className="p-3 text-right font-black text-slate-900 font-mono">
                         RM {receiptModalInvoice.amount}.00
                       </td>
                     </tr>
                   </tbody>
-                  <tfoot className="border-t border-paper-creaseDark bg-paper-sheet/40 font-bold">
+                  <tfoot className="border-t-2 border-origami-slate bg-paper-sheet font-black">
                     <tr>
-                      <td colSpan={2} className="p-2 text-right">Jumlah Bersih:</td>
-                      <td className="p-2 text-right text-origami-terracotta text-sm font-black">
+                      <td colSpan={2} className="p-3 text-right">Jumlah Bersih:</td>
+                      <td className="p-3 text-right text-origami-terracotta text-base sm:text-lg font-black font-mono">
                         RM {receiptModalInvoice.amount}.00
                       </td>
                     </tr>
@@ -615,12 +652,12 @@ export const BillingHub: React.FC = () => {
               </div>
 
               {/* Footer APAD Stamp */}
-              <div className="pt-2 border-t border-dashed border-paper-creaseDark flex items-center justify-between text-[10px] text-gray-500">
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <div className="pt-3 border-t-2 border-dashed border-slate-400 flex items-center justify-between text-xs text-slate-700 font-bold">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-emerald-700" />
                   <span>Resit berkomputer sah tanpa tandatangan fizikal.</span>
                 </div>
-                <div className="font-mono">FPX Bank: {receiptModalInvoice.bankName || 'FPX Online'}</div>
+                <div className="font-mono text-slate-900">FPX Bank: {receiptModalInvoice.bankName || 'FPX Online'}</div>
               </div>
             </div>
           </div>
