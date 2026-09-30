@@ -82,4 +82,4 @@ If anything fails, reply `fix` and paste the error or describe what you see.
 Stop after verifying static layout and role switching. Do not wire live dispatch mutations yet.
 
 ## Status
-Not started
+Completed

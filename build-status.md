@@ -7,7 +7,7 @@
 - Shape confirmation: Confirmed
 - Current KDBM Lite stage: Build
 - Current phase: Ready to Build
-- Current work card: `work-cards/02-static-layout.md`
+- Current work card: `work-cards/05-localstorage-save-refresh.md`
 
 ## Completed planning files
 
@@ -22,10 +22,13 @@
 
 - [x] 00 Setup Gate
 - [x] 01 Project Skeleton & Transit Data Models (`work-cards/01-project-skeleton.md`)
+- [x] 02 Tactical Origami Layout & Role Views (`work-cards/02-static-layout.md`)
+- [x] 03 Parent Status Dispatch & Update Creation (`work-cards/03-add-item.md`)
+- [x] 04 Driver Manifest Mutation & Voice Alerts (`work-cards/04-update-delete-item.md`)
 
 ## In progress
 
-- [ ] Work Card 02: Tactical Origami Layout & Role Views (`work-cards/02-static-layout.md`)
+- [ ] Work Card 05: LocalStorage Save, Refresh & Cross-Tab BroadcastChannel Sync (`work-cards/05-localstorage-save-refresh.md`)
 
 ## Blockers
 
@@ -55,9 +58,9 @@
 - GitHub account: Verified (`itzzyajk`)
 - Vercel account: Verified
 - KrackedDevs account: Verified
-- Localhost: Ready
-- Build: Passed
+- Localhost: Ready (`http://localhost:3000`)
+- Build: Passed (`npm run build` exit code 0)
 
 ## Next instruction for AI
 
-Read `build-status.md`, `build-blueprint.md`, and `work-cards/02-static-layout.md`. Implement only Work Card 02. Stop after verification and update `build-status.md`.
+Read `build-status.md`, `build-blueprint.md`, and `work-cards/05-localstorage-save-refresh.md`. Implement only Work Card 05. Stop after verification and update `build-status.md`.

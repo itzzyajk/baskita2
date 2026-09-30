@@ -309,14 +309,10 @@ export const DriverCockpit: React.FC = () => {
                       <span className="text-xs font-mono text-slate-700 font-black">
                         ({student.initials})
                       </span>
+                    </div>
 
-                      {/* Special Authorization / Delay Badges */}
-                      {student.bufferSeconds ? (
-                        <span className="bg-amber-300 text-amber-950 text-xs font-black px-2 py-0.5 rounded border border-amber-600 shadow-xs">
-                          ⏱️ Buffer: +{student.bufferSeconds}s (Lewat)
-                        </span>
-                      ) : null}
-
+                    {/* Special Authorization / Delay Badges */}
+                    <div className="flex flex-wrap items-center gap-1.5 mt-1">
                       {student.afternoonFlag === 'grandma' && (
                         <span className="bg-teal-100 text-teal-950 text-xs font-black px-2 py-0.5 rounded border border-teal-500">
                           👵 Nenek Ambil Petang
@@ -339,46 +335,103 @@ export const DriverCockpit: React.FC = () => {
                       <span className="truncate">{student.pickupStopName}</span>
                     </div>
 
-                    {student.statusNotes && (
-                      <div className="text-xs font-black text-origami-terracotta mt-1 bg-amber-50 p-1.5 rounded border border-amber-300">
+                    {/* Normal Status Notes if no active buffer */}
+                    {student.statusNotes && (!student.bufferSeconds || student.bufferSeconds === 0) && (
+                      <div className="text-xs font-bold text-slate-700 mt-1.5 bg-slate-100 p-1.5 rounded border border-slate-300">
                         Nota: {student.statusNotes}
                       </div>
                     )}
+
+                    {/* Prominent Amber Alert Banner for Active Parent Dispatch Delay Buffer */}
+                    {student.bufferSeconds && student.bufferSeconds > 0 ? (
+                      <div className="mt-2.5 p-2 bg-amber-100 border-2 border-amber-500 rounded-md flex items-center justify-between gap-2 shadow-xs">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <Clock className="w-4 h-4 text-amber-900 shrink-0 animate-pulse" />
+                          <div className="text-xs sm:text-sm font-black text-amber-950 truncate">
+                            ⏱️ Buffer: +{student.bufferSeconds}s (Pesan Ibu Bapa: {student.statusNotes || 'Lewat'})
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => actions.dismissStudentBuffer(student.id)}
+                          className="origami-btn shrink-0 bg-amber-200 hover:bg-amber-300 text-amber-950 border border-amber-600 px-2.5 py-1 rounded text-xs font-black shadow-xs active:scale-95"
+                          title="Selesaikan atau padam nota buffer ini"
+                        >
+                          Padam ✕
+                        </button>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
 
-                {/* Right: Driver Action Toggles with Large Touch Targets (≥ 64px) */}
-                <div className="grid grid-cols-3 sm:flex items-center gap-2.5 shrink-0 self-end sm:self-center">
-                  <button
-                    onClick={() => handleStudentAction(student.id, 'boarded')}
-                    className={`origami-btn min-h-[58px] sm:min-h-[64px] min-w-[76px] sm:min-w-[88px] px-3.5 py-2 rounded text-xs sm:text-sm font-black flex flex-col items-center justify-center gap-1 transition-all shadow-paper ${
-                      isBoarded
-                        ? 'bg-emerald-600 text-white border-2 border-emerald-800'
-                        : 'bg-paper-sheet text-slate-900 border-2 border-slate-500 hover:bg-emerald-100'
-                    }`}
-                    title="Tanda telah menaiki bas"
-                  >
-                    <CheckCircle2 className="w-5 h-5" />
-                    <span>Naik Bas</span>
-                  </button>
+                {/* Right: Driver Action Toggles with Large Tactile Touch Targets (≥ 64px) */}
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 shrink-0 self-end sm:self-center">
+                  {isWaiting ? (
+                    <>
+                      {/* [Naik Bas] min-h-[64px], Teal/Green Accent */}
+                      <button
+                        onClick={() => handleStudentAction(student.id, 'boarded')}
+                        className="origami-btn min-h-[64px] min-w-[80px] sm:min-w-[92px] px-3 py-2 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm border-2 border-emerald-800 flex flex-col items-center justify-center gap-1 shadow-paper active:scale-95 transition-all"
+                        title="Tanda telah menaiki bas"
+                      >
+                        <CheckCircle2 className="w-5 h-5 text-white" />
+                        <span>Naik Bas</span>
+                      </button>
 
-                  <button
-                    onClick={() => handleStudentAction(student.id, 'absent')}
-                    className={`origami-btn min-h-[58px] sm:min-h-[64px] min-w-[76px] sm:min-w-[88px] px-3.5 py-2 rounded text-xs sm:text-sm font-black flex flex-col items-center justify-center gap-1 transition-all shadow-paper ${
-                      isAbsent
-                        ? 'bg-red-600 text-white border-2 border-red-800'
-                        : 'bg-paper-sheet text-slate-900 border-2 border-slate-500 hover:bg-red-100'
-                    }`}
-                    title="Tanda tidak hadir / cuti"
-                  >
-                    <XCircle className="w-5 h-5" />
-                    <span>Cuti (Skip)</span>
-                  </button>
+                      {/* [Cuti] min-h-[64px], Terracotta/Red Accent */}
+                      <button
+                        onClick={() => handleStudentAction(student.id, 'absent')}
+                        className="origami-btn min-h-[64px] min-w-[76px] sm:min-w-[84px] px-3 py-2 rounded bg-origami-terracotta hover:bg-red-700 text-white font-black text-xs sm:text-sm border-2 border-red-900 flex flex-col items-center justify-center gap-1 shadow-paper active:scale-95 transition-all"
+                        title="Tanda tidak hadir / cuti hari ini"
+                      >
+                        <XCircle className="w-5 h-5 text-white" />
+                        <span>Cuti (Skip)</span>
+                      </button>
 
+                      {/* [+1 Minit] min-h-[64px], Canary Yellow Accent */}
+                      <button
+                        onClick={() => actions.addStudentWaitBuffer(student.id, 60)}
+                        className="origami-btn min-h-[64px] min-w-[68px] sm:min-w-[74px] px-2.5 py-2 rounded bg-origami-yellow hover:bg-amber-300 text-slate-900 font-black text-xs sm:text-sm border-2 border-slate-900 flex flex-col items-center justify-center gap-1 shadow-paper active:scale-95 transition-all"
+                        title="Tambah 1 minit buffer waktu menunggu untuk murid ini"
+                      >
+                        <PlusCircle className="w-5 h-5 text-slate-900" />
+                        <span>+1 Min</span>
+                      </button>
+                    </>
+                  ) : isBoarded ? (
+                    <div className="flex items-center gap-2">
+                      <div className="min-h-[64px] px-4 py-2 bg-emerald-100 border-2 border-emerald-600 rounded flex flex-col items-center justify-center text-emerald-950 font-black text-xs sm:text-sm">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-700" />
+                        <span>Sudah Naik</span>
+                      </div>
+                      <button
+                        onClick={() => handleStudentAction(student.id, 'waiting')}
+                        className="origami-btn min-h-[64px] px-2.5 py-2 bg-paper-sheet hover:bg-slate-200 text-slate-800 text-xs font-black rounded border-2 border-slate-400"
+                        title="Ubah kembali ke status Menunggu"
+                      >
+                        Ubah
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <div className="min-h-[64px] px-4 py-2 bg-red-100 border-2 border-red-500 rounded flex flex-col items-center justify-center text-red-950 font-black text-xs sm:text-sm">
+                        <XCircle className="w-5 h-5 text-red-700" />
+                        <span>Cuti / MC</span>
+                      </div>
+                      <button
+                        onClick={() => handleStudentAction(student.id, 'waiting')}
+                        className="origami-btn min-h-[64px] px-2.5 py-2 bg-paper-sheet hover:bg-slate-200 text-slate-800 text-xs font-black rounded border-2 border-slate-400"
+                        title="Ubah kembali ke status Menunggu"
+                      >
+                        Ubah
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Guardian Phone Call */}
                   <a
                     href={`tel:${student.guardianPhone}`}
-                    className="origami-btn min-h-[58px] sm:min-h-[64px] px-3 py-2 rounded bg-paper-sheet hover:bg-paper-crease text-slate-900 border-2 border-slate-500 flex flex-col items-center justify-center gap-1 shadow-paper"
-                    title="Hubungi Waris"
+                    className="origami-btn min-h-[64px] min-w-[60px] px-2.5 py-2 rounded bg-paper-sheet hover:bg-paper-crease text-slate-900 border-2 border-slate-500 flex flex-col items-center justify-center gap-1 shadow-paper active:scale-95"
+                    title={`Hubungi Waris: ${student.guardianPhone}`}
                   >
                     <PhoneCall className="w-5 h-5 text-origami-teal" />
                     <span className="text-[11px] font-black">Waris</span>

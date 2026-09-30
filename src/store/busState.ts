@@ -266,9 +266,10 @@ export const busActions = {
 
     if (newStatus === 'absent') {
       sounds.playChime('alert');
-      sounds.speakAnnouncement(`Makluman kehadiran: ${student.name.split(' ')[1] || student.name} ditanda tidak hadir.`);
+      sounds.speakAlert(`Makluman kehadiran: ${student.name.split(' ')[1] || student.name} ditanda tidak hadir.`);
     } else if (newStatus === 'boarded') {
       sounds.playChime('success');
+      sounds.speakAlert(`${student.name.split(' ')[1] || student.name} telah menaiki bas.`);
     } else {
       sounds.playPaperFold();
     }
@@ -344,19 +345,19 @@ export const busActions = {
 
     // Voice announcement for driver cockpit
     if (action === 'absent') {
-      sounds.speakAnnouncement(
+      sounds.speakAlert(
         `Perhatian pemandu: ${student.name.split(' ')[1] || student.name} tidak hadir hari ini. Hentian boleh dilangkau.`
       );
     } else if (action === 'late') {
-      sounds.speakAnnouncement(
+      sounds.speakAlert(
         `Perhatian pemandu: ${student.name.split(' ')[1] || student.name} lewat 2 minit di hentian ${student.pickupStopName.split('(')[0]}.`
       );
     } else if (action === 'grandma') {
-      sounds.speakAnnouncement(
+      sounds.speakAlert(
         `Makluman: Petang ini ${student.name.split(' ')[1] || student.name} diambil oleh waris atau nenek.`
       );
     } else if (action === 'self_pickup') {
-      sounds.speakAnnouncement(
+      sounds.speakAlert(
         `Makluman: ${student.name.split(' ')[1] || student.name} pulang sendiri petang ini.`
       );
     }
@@ -384,7 +385,66 @@ export const busActions = {
     };
 
     sounds.playChime('alert');
-    sounds.speakAnnouncement(`Masa tunggu ditambah ${seconds} saat.`);
+    sounds.speakAlert(`Masa tunggu hentian ditambah ${seconds} saat.`);
+    notifyListeners(true);
+  },
+
+  // Driver action: Add +1 Min wait buffer to student
+  addStudentWaitBuffer(studentId: string, seconds: number = 60) {
+    const student = storeState.students.find((s) => s.id === studentId);
+    if (!student) return;
+
+    const newBuffer = (student.bufferSeconds || 0) + seconds;
+
+    // Also update stop buffer
+    const updatedRoutes = storeState.routes.map((r) => ({
+      ...r,
+      stops: r.stops.map((s) =>
+        s.id === student.pickupStopId
+          ? { ...s, waitBufferSeconds: (s.waitBufferSeconds || 0) + seconds }
+          : s
+      ),
+    }));
+
+    storeState = {
+      ...storeState,
+      routes: updatedRoutes,
+      students: storeState.students.map((s) =>
+        s.id === studentId
+          ? {
+              ...s,
+              bufferSeconds: newBuffer,
+              statusNotes: `Buffer masa +${newBuffer}s`,
+            }
+          : s
+      ),
+    };
+
+    sounds.playChime('alert');
+    sounds.speakAlert(`Masa tunggu untuk ${student.name.split(' ')[1] || student.name} ditambah ${seconds} saat.`);
+    notifyListeners(true);
+  },
+
+  // Driver action: Clear / dismiss student delay buffer & note
+  dismissStudentBuffer(studentId: string) {
+    const student = storeState.students.find((s) => s.id === studentId);
+    if (!student) return;
+
+    storeState = {
+      ...storeState,
+      students: storeState.students.map((s) =>
+        s.id === studentId
+          ? {
+              ...s,
+              bufferSeconds: 0,
+              statusNotes: undefined,
+            }
+          : s
+      ),
+    };
+
+    sounds.playPaperFold();
+    sounds.speakAlert(`Nota buffer untuk ${student.name.split(' ')[1] || student.name} telah diselesaikan.`);
     notifyListeners(true);
   },
 

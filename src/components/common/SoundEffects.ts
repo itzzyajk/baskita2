@@ -258,6 +258,11 @@ class SoundManager {
       // speech not permitted or blocked
     }
   }
+
+  // Web Speech API direct alert wrapper for driver notifications
+  speakAlert(message: string, onEnd?: () => void) {
+    this.speakAnnouncement(message, onEnd);
+  }
 }
 
 export const sounds = new SoundManager();
