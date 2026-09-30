@@ -270,6 +270,42 @@ export const StudentLounge: React.FC = () => {
         </div>
       )}
 
+      {/* FULL-SCREEN SAFETY CURFEW BANNER WHEN BUS <= 2 MINS & PLAYING GAME */}
+      {isArrivingSoon && activeMiniGame && (
+        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="origami-card max-w-md w-full bg-white border-4 border-origami-terracotta rounded-xl p-6 text-center space-y-4 shadow-paper-xl">
+            <div className="w-16 h-16 bg-origami-terracotta text-white rounded-full flex items-center justify-center text-3xl mx-auto shadow-paper">
+              🚌
+            </div>
+            <div>
+              <span className="bg-red-100 text-red-950 text-xs font-black px-2.5 py-0.5 rounded border border-red-500 uppercase tracking-wider">
+                Amaran Keselamatan Curbside
+              </span>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-2 leading-snug">
+                Bas dah nak sampai!
+              </h2>
+              <p className="text-sm font-bold text-slate-800 mt-1">
+                Sila berkumpul di hentian sekarang! Permainan dijeda demi keselamatan anda.
+              </p>
+            </div>
+            <div className="p-3 bg-amber-50 border-2 border-amber-400 rounded text-xs font-bold text-amber-950 text-left">
+              📍 <strong>Hentian:</strong> {currentStudent.pickupStopName}
+              <br />
+              ⏱️ <strong>ETA:</strong> {activeBus.nextStopETA} ({activeBus.speedKmH} km/j)
+            </div>
+            <button
+              onClick={() => {
+                actions.setActiveMiniGame(null);
+                sounds.playBusHorn();
+              }}
+              className="w-full origami-btn origami-btn-primary py-3 rounded-lg text-sm font-black uppercase tracking-wider shadow-paper"
+            >
+              Saya Faham, Pergi ke Hentian Bas Sekarang 🎒
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* GAME SELECTION LAUNCHER (When no game is active) */}
       {!activeMiniGame && (
         <div className="space-y-4 pt-2">

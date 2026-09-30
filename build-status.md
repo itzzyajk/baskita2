@@ -7,7 +7,7 @@
 - Shape confirmation: Confirmed
 - Current KDBM Lite stage: Build
 - Current phase: Ready to Build
-- Current work card: `work-cards/06-review-and-fix.md`
+- Current work card: `work-cards/07-github-vercel-proof.md`
 
 ## Completed planning files
 
@@ -26,10 +26,11 @@
 - [x] 03 Parent Status Dispatch & Update Creation (`work-cards/03-add-item.md`)
 - [x] 04 Driver Manifest Mutation & Voice Alerts (`work-cards/04-update-delete-item.md`)
 - [x] 05 LocalStorage Save, Refresh & Cross-Tab BroadcastChannel Sync (`work-cards/05-localstorage-save-refresh.md`)
+- [x] 06 Review Mirror, Accessibility & Polish (`work-cards/06-review-and-fix.md`)
 
 ## In progress
 
-- [ ] Work Card 06: Review Mirror, Accessibility & Polish (`work-cards/06-review-and-fix.md`)
+- [ ] Work Card 07: GitHub Repository Push & Vercel Deployment Proof (`work-cards/07-github-vercel-proof.md`)
 
 ## Blockers
 
@@ -64,4 +65,4 @@
 
 ## Next instruction for AI
 
-Read `build-status.md`, `build-blueprint.md`, and `work-cards/06-review-and-fix.md`. Implement only Work Card 06. Stop after verification and update `build-status.md`.
+Read `build-status.md`, `build-blueprint.md`, and `work-cards/07-github-vercel-proof.md`. Implement Work Card 07.
