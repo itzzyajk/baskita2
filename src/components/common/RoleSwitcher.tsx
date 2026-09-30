@@ -3,7 +3,7 @@
 import React from 'react';
 import { useBusStore } from '@/store/busState';
 import { UserRole } from '@/types';
-import { Bus, UserCheck, ShieldCheck, UserPlus, Gamepad2, CreditCard, Sparkles } from 'lucide-react';
+import { Bus, UserCheck, ShieldCheck, UserPlus, Gamepad2, CreditCard, Sparkles, RotateCcw } from 'lucide-react';
 
 interface RoleSwitcherProps {
   currentTab: string;
@@ -155,6 +155,20 @@ export const RoleSwitcher: React.FC<RoleSwitcherProps> = ({
             >
               <UserPlus className="w-4 h-4 text-origami-yellow" />
               <span>Daftar Anak</span>
+            </button>
+
+            {/* Reset Demo Data Button */}
+            <button
+              onClick={() => {
+                if (window.confirm('Set semula data demo ke jadual asal?')) {
+                  actions.resetDemoData();
+                }
+              }}
+              className="flex items-center gap-1.5 px-2.5 py-2 rounded-xs text-xs font-black text-slate-700 hover:text-red-700 hover:bg-red-50 border border-dashed border-slate-400 ml-1 transition-all"
+              title="Set semula data demo ke asal (kosongkan localStorage)"
+            >
+              <RotateCcw className="w-3.5 h-3.5 text-slate-600" />
+              <span>Reset Demo</span>
             </button>
           </div>
         </nav>

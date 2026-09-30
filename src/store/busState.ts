@@ -95,6 +95,38 @@ let storeState: BusStoreState = {
   simulationProgress: 2.5, // Start between Saujana and Jalan Ilham
 };
 
+const STORAGE_KEY = 'baskita_manifest_state_v1';
+let hasHydrated = false;
+
+function loadFromLocalStorage(): Partial<BusStoreState> | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function saveToLocalStorage(state: BusStoreState) {
+  if (typeof window === 'undefined') return;
+  try {
+    const payload = {
+      students: state.students,
+      recentUpdates: state.recentUpdates,
+      invoices: state.invoices,
+      transactions: state.transactions,
+      circulars: state.circulars,
+      routes: state.routes,
+      buses: state.buses,
+    };
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch {
+    // localStorage might be blocked or quota exceeded
+  }
+}
+
 const listeners = new Set<() => void>();
 let broadcastChannel: BroadcastChannel | null = null;
 
@@ -102,9 +134,19 @@ if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
   try {
     broadcastChannel = new BroadcastChannel('baskita_bus_sync');
     broadcastChannel.onmessage = (event) => {
-      if (event.data && event.data.type === 'SYNC_STATE') {
-        storeState = { ...storeState, ...event.data.payload };
-        notifyListeners();
+      if (!event.data) return;
+      const { payload, alertText } = event.data;
+      if (payload) {
+        storeState = {
+          ...storeState,
+          ...payload,
+        };
+        saveToLocalStorage(storeState);
+        notifyListeners(false);
+      }
+      if (alertText) {
+        sounds.playChime('alert');
+        sounds.speakAlert(alertText);
       }
     };
   } catch {
@@ -112,25 +154,33 @@ if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
   }
 }
 
-function notifyListeners(syncCrossTab = false) {
+function notifyListeners(
+  syncCrossTab = false,
+  broadcastMeta?: { type: string; alertText?: string }
+) {
   listeners.forEach((listener) => listener());
-  if (syncCrossTab && broadcastChannel) {
-    try {
-      broadcastChannel.postMessage({
-        type: 'SYNC_STATE',
-        payload: {
-          students: storeState.students,
-          buses: storeState.buses,
-          recentUpdates: storeState.recentUpdates,
-          circulars: storeState.circulars,
-          invoices: storeState.invoices,
-          transactions: storeState.transactions,
-          isSimulating: storeState.isSimulating,
-          simulationProgress: storeState.simulationProgress,
-        },
-      });
-    } catch {
-      // ignore
+  if (syncCrossTab) {
+    saveToLocalStorage(storeState);
+    if (broadcastChannel) {
+      try {
+        broadcastChannel.postMessage({
+          type: broadcastMeta?.type || 'SYNC_STATE',
+          alertText: broadcastMeta?.alertText,
+          payload: {
+            students: storeState.students,
+            buses: storeState.buses,
+            routes: storeState.routes,
+            recentUpdates: storeState.recentUpdates,
+            circulars: storeState.circulars,
+            invoices: storeState.invoices,
+            transactions: storeState.transactions,
+            isSimulating: storeState.isSimulating,
+            simulationProgress: storeState.simulationProgress,
+          },
+        });
+      } catch {
+        // ignore
+      }
     }
   }
 }
@@ -264,17 +314,27 @@ export const busActions = {
       ],
     };
 
+    const alertMsg =
+      newStatus === 'absent'
+        ? `Makluman kehadiran: ${student.name.split(' ')[1] || student.name} ditanda tidak hadir.`
+        : newStatus === 'boarded'
+        ? `${student.name.split(' ')[1] || student.name} telah menaiki bas.`
+        : undefined;
+
     if (newStatus === 'absent') {
       sounds.playChime('alert');
-      sounds.speakAlert(`Makluman kehadiran: ${student.name.split(' ')[1] || student.name} ditanda tidak hadir.`);
+      if (alertMsg) sounds.speakAlert(alertMsg);
     } else if (newStatus === 'boarded') {
       sounds.playChime('success');
-      sounds.speakAlert(`${student.name.split(' ')[1] || student.name} telah menaiki bas.`);
+      if (alertMsg) sounds.speakAlert(alertMsg);
     } else {
       sounds.playPaperFold();
     }
 
-    notifyListeners(true);
+    notifyListeners(true, {
+      type: 'STUDENT_STATUS_UPDATE',
+      alertText: alertMsg,
+    });
   },
 
   // One-Tap "Paper Airplane" Dispatcher from Parent Tracker
@@ -344,25 +404,25 @@ export const busActions = {
     sounds.playChime('alert');
 
     // Voice announcement for driver cockpit
+    let alertMsg = '';
     if (action === 'absent') {
-      sounds.speakAlert(
-        `Perhatian pemandu: ${student.name.split(' ')[1] || student.name} tidak hadir hari ini. Hentian boleh dilangkau.`
-      );
+      alertMsg = `Perhatian pemandu: ${student.name.split(' ')[1] || student.name} tidak hadir hari ini. Hentian boleh dilangkau.`;
     } else if (action === 'late') {
-      sounds.speakAlert(
-        `Perhatian pemandu: ${student.name.split(' ')[1] || student.name} lewat 2 minit di hentian ${student.pickupStopName.split('(')[0]}.`
-      );
+      alertMsg = `Perhatian pemandu: ${student.name.split(' ')[1] || student.name} lewat 2 minit di hentian ${student.pickupStopName.split('(')[0]}.`;
     } else if (action === 'grandma') {
-      sounds.speakAlert(
-        `Makluman: Petang ini ${student.name.split(' ')[1] || student.name} diambil oleh waris atau nenek.`
-      );
+      alertMsg = `Makluman: Petang ini ${student.name.split(' ')[1] || student.name} diambil oleh waris atau nenek.`;
     } else if (action === 'self_pickup') {
-      sounds.speakAlert(
-        `Makluman: ${student.name.split(' ')[1] || student.name} pulang sendiri petang ini.`
-      );
+      alertMsg = `Makluman: ${student.name.split(' ')[1] || student.name} pulang sendiri petang ini.`;
     }
 
-    notifyListeners(true);
+    if (alertMsg) {
+      sounds.speakAlert(alertMsg);
+    }
+
+    notifyListeners(true, {
+      type: 'DISPATCH_PARENT_NOTE',
+      alertText: alertMsg,
+    });
   },
 
   // Driver action: Add +1 Min wait buffer to stop
@@ -385,8 +445,12 @@ export const busActions = {
     };
 
     sounds.playChime('alert');
-    sounds.speakAlert(`Masa tunggu hentian ditambah ${seconds} saat.`);
-    notifyListeners(true);
+    const msg = `Masa tunggu hentian ditambah ${seconds} saat.`;
+    sounds.speakAlert(msg);
+    notifyListeners(true, {
+      type: 'INCREMENT_BUFFER',
+      alertText: msg,
+    });
   },
 
   // Driver action: Add +1 Min wait buffer to student
@@ -421,8 +485,12 @@ export const busActions = {
     };
 
     sounds.playChime('alert');
-    sounds.speakAlert(`Masa tunggu untuk ${student.name.split(' ')[1] || student.name} ditambah ${seconds} saat.`);
-    notifyListeners(true);
+    const msg = `Masa tunggu untuk ${student.name.split(' ')[1] || student.name} ditambah ${seconds} saat.`;
+    sounds.speakAlert(msg);
+    notifyListeners(true, {
+      type: 'INCREMENT_BUFFER',
+      alertText: msg,
+    });
   },
 
   // Driver action: Clear / dismiss student delay buffer & note
@@ -444,8 +512,12 @@ export const busActions = {
     };
 
     sounds.playPaperFold();
-    sounds.speakAlert(`Nota buffer untuk ${student.name.split(' ')[1] || student.name} telah diselesaikan.`);
-    notifyListeners(true);
+    const msg = `Nota buffer untuk ${student.name.split(' ')[1] || student.name} telah diselesaikan.`;
+    sounds.speakAlert(msg);
+    notifyListeners(true, {
+      type: 'STUDENT_STATUS_UPDATE',
+      alertText: msg,
+    });
   },
 
   // Driver action on current stop
@@ -716,13 +788,86 @@ export const busActions = {
 
     notifyListeners();
   },
+
+  // Reset Demo Data: Purge localStorage and restore pristine morning transit seed data
+  resetDemoData() {
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.removeItem(STORAGE_KEY);
+      } catch {
+        // ignore
+      }
+    }
+
+    storeState = {
+      ...storeState,
+      students: INITIAL_STUDENTS,
+      buses: FLEET_BUSES,
+      routes: ROUTES,
+      invoices: INITIAL_INVOICES,
+      recentUpdates: [],
+      transactions: [
+        {
+          id: 'tx-001',
+          invoiceId: 'inv-2026-001',
+          fpxRef: 'FPX-MY-20260302-8812',
+          bankName: 'Maybank2u',
+          amount: 140,
+          studentName: 'Muhammad Rayyan bin Khairul',
+          timestamp: '2026-03-02 09:14 AM',
+          receiptNumber: 'BK-RCT-20260302-01',
+        },
+        {
+          id: 'tx-002',
+          invoiceId: 'inv-2026-002',
+          fpxRef: 'FPX-MY-20260302-8812',
+          bankName: 'Maybank2u',
+          amount: 140,
+          studentName: 'Nur Sofea binti Khairul',
+          timestamp: '2026-03-02 09:14 AM',
+          receiptNumber: 'BK-RCT-20260302-02',
+        },
+        {
+          id: 'tx-003',
+          invoiceId: 'inv-2026-005',
+          fpxRef: 'FPX-MY-20260303-4491',
+          bankName: 'CIMB Clicks',
+          amount: 90,
+          studentName: 'Adam Hariz bin Zulkifli',
+          timestamp: '2026-03-03 11:20 AM',
+          receiptNumber: 'BK-RCT-20260303-05',
+        },
+      ],
+      simulationProgress: 2.5,
+    };
+
+    sounds.playPaperFold();
+    sounds.speakAlert('Data demo telah diset semula ke keadaan asal.');
+    notifyListeners(true, {
+      type: 'RESET_STATE',
+      alertText: 'Data demo telah diset semula ke keadaan asal.',
+    });
+  },
 };
 
-// React hook to access state
+// React hook to access state with localStorage rehydration
 export function useBusStore() {
   const [state, setState] = useState<BusStoreState>(storeState);
 
   useEffect(() => {
+    // Rehydrate from localStorage on first client mount
+    if (!hasHydrated) {
+      hasHydrated = true;
+      const saved = loadFromLocalStorage();
+      if (saved) {
+        storeState = {
+          ...storeState,
+          ...saved,
+        };
+        setState({ ...storeState });
+      }
+    }
+
     const listener = () => setState({ ...storeState });
     listeners.add(listener);
     return () => {

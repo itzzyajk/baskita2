@@ -7,7 +7,7 @@
 - Shape confirmation: Confirmed
 - Current KDBM Lite stage: Build
 - Current phase: Ready to Build
-- Current work card: `work-cards/05-localstorage-save-refresh.md`
+- Current work card: `work-cards/06-review-and-fix.md`
 
 ## Completed planning files
 
@@ -25,10 +25,11 @@
 - [x] 02 Tactical Origami Layout & Role Views (`work-cards/02-static-layout.md`)
 - [x] 03 Parent Status Dispatch & Update Creation (`work-cards/03-add-item.md`)
 - [x] 04 Driver Manifest Mutation & Voice Alerts (`work-cards/04-update-delete-item.md`)
+- [x] 05 LocalStorage Save, Refresh & Cross-Tab BroadcastChannel Sync (`work-cards/05-localstorage-save-refresh.md`)
 
 ## In progress
 
-- [ ] Work Card 05: LocalStorage Save, Refresh & Cross-Tab BroadcastChannel Sync (`work-cards/05-localstorage-save-refresh.md`)
+- [ ] Work Card 06: Review Mirror, Accessibility & Polish (`work-cards/06-review-and-fix.md`)
 
 ## Blockers
 
@@ -63,4 +64,4 @@
 
 ## Next instruction for AI
 
-Read `build-status.md`, `build-blueprint.md`, and `work-cards/05-localstorage-save-refresh.md`. Implement only Work Card 05. Stop after verification and update `build-status.md`.
+Read `build-status.md`, `build-blueprint.md`, and `work-cards/06-review-and-fix.md`. Implement only Work Card 06. Stop after verification and update `build-status.md`.
